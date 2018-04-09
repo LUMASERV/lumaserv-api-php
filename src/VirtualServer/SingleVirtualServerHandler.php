@@ -126,7 +126,7 @@ class SingleVirtualServerHandler
 
     public function createScheduledTask($action, $interval, $first_execution = null)
     {
-        return $this->lumaserv->post('servers/virtual/'.$this->id.'/scheduledTask/create', [
+        return $this->lumaserv->post('servers/virtual/'.$this->id.'/scheduledTasks/create', [
             'action' => $action,
             'interval' => $interval,
             'first_execution' => $first_execution
@@ -135,7 +135,7 @@ class SingleVirtualServerHandler
 
     public function deleteScheduledTask($task_id)
     {
-        return $this->lumaserv->post('servers/virtual/'.$this->id.'/scheduledTask/'.$task_id.'/delete');
+        return $this->lumaserv->post('servers/virtual/'.$this->id.'/scheduledTasks/'.$task_id.'/delete');
     }
 
     public function graphs($timeframe, $cf = 'AVERAGE')
