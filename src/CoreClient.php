@@ -121,6 +121,14 @@ class CoreClient {
     }
 
     /**
+     * @return ScheduledServerActionSingleResponse
+     */
+    public function restoreServer($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/restore", $queryParams, $body);
+        return $this->mapper->map($json, new ScheduledServerActionSingleResponse());
+    }
+
+    /**
      * @return SSLOrganisationSingleResponse
      */
     public function getSSLOrganisation($id, $queryParams = []) {
@@ -142,6 +150,14 @@ class CoreClient {
     public function getServerAction($id, $action_id, $queryParams = []) {
         $json = $this->request("GET", "/servers/$id/actions/$action_id", $queryParams);
         return $this->mapper->map($json, new ServerActionSingleResponse());
+    }
+
+    /**
+     * @return ServerGraphResponse
+     */
+    public function getServerGraph($id, $queryParams = []) {
+        $json = $this->request("GET", "/servers/$id/graph", $queryParams);
+        return $this->mapper->map($json, new ServerGraphResponse());
     }
 
     /**
@@ -291,17 +307,33 @@ class CoreClient {
     /**
      * @return AvailabilityZoneSingleResponse
      */
-    public function getAvailabilityZone($body, $id, $queryParams = []) {
-        $json = $this->request("GET", "/availability-zones/$id", $queryParams, $body);
+    public function getAvailabilityZone($id, $queryParams = []) {
+        $json = $this->request("GET", "/availability-zones/$id", $queryParams);
         return $this->mapper->map($json, new AvailabilityZoneSingleResponse());
     }
 
     /**
      * @return AvailabilityZoneSingleResponse
      */
-    public function updateAvailabilityZone($id, $queryParams = []) {
-        $json = $this->request("PUT", "/availability-zones/$id", $queryParams);
+    public function updateAvailabilityZone($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/availability-zones/$id", $queryParams, $body);
         return $this->mapper->map($json, new AvailabilityZoneSingleResponse());
+    }
+
+    /**
+     * @return ServerBackupSingleResponse
+     */
+    public function createServerBackup($body, $queryParams = []) {
+        $json = $this->request("POST", "/server-backups", $queryParams, $body);
+        return $this->mapper->map($json, new ServerBackupSingleResponse());
+    }
+
+    /**
+     * @return ServerBackupListResponse
+     */
+    public function getServerBackups($queryParams = []) {
+        $json = $this->request("GET", "/server-backups", $queryParams);
+        return $this->mapper->map($json, new ServerBackupListResponse());
     }
 
     /**
@@ -318,6 +350,14 @@ class CoreClient {
     public function getSubnets($queryParams = []) {
         $json = $this->request("GET", "/subnets", $queryParams);
         return $this->mapper->map($json, new SubnetListResponse());
+    }
+
+    /**
+     * @return ServerVolumeSingleResponse
+     */
+    public function createServerVolume($body, $queryParams = []) {
+        $json = $this->request("POST", "/server-volumes", $queryParams, $body);
+        return $this->mapper->map($json, new ServerVolumeSingleResponse());
     }
 
     /**
@@ -347,7 +387,7 @@ class CoreClient {
     /**
      * @return ServerStorageClassListResponse
      */
-    public function getServerVolumeClasses($queryParams = []) {
+    public function getServerStorageClasses($queryParams = []) {
         $json = $this->request("GET", "/server-storage-classes", $queryParams);
         return $this->mapper->map($json, new ServerStorageClassListResponse());
     }
@@ -358,6 +398,22 @@ class CoreClient {
     public function search($queryParams = []) {
         $json = $this->request("GET", "/search", $queryParams);
         return $this->mapper->map($json, new SearchResponse());
+    }
+
+    /**
+     * @return ScheduledServerActionSingleResponse
+     */
+    public function getScheduledServerAction($id, $action_id, $queryParams = []) {
+        $json = $this->request("GET", "/servers/$id/scheduled-actions/$action_id", $queryParams);
+        return $this->mapper->map($json, new ScheduledServerActionSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteScheduledServerAction($id, $action_id, $queryParams = []) {
+        $json = $this->request("DELETE", "/servers/$id/scheduled-actions/$action_id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
     }
 
     /**
@@ -489,6 +545,22 @@ class CoreClient {
     }
 
     /**
+     * @return ScheduledServerActionSingleResponse
+     */
+    public function createScheduledServerAction($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/scheduled-actions", $queryParams, $body);
+        return $this->mapper->map($json, new ScheduledServerActionSingleResponse());
+    }
+
+    /**
+     * @return ScheduledServerActionListResponse
+     */
+    public function getScheduledServerActions($id, $queryParams = []) {
+        $json = $this->request("GET", "/servers/$id/scheduled-actions", $queryParams);
+        return $this->mapper->map($json, new ScheduledServerActionListResponse());
+    }
+
+    /**
      * @return DomainSingleResponse
      */
     public function unscheduleDomainDelete($name, $queryParams = []) {
@@ -590,6 +662,14 @@ class CoreClient {
     public function deleteSSHKey($id, $queryParams = []) {
         $json = $this->request("DELETE", "/ssh-keys/$id", $queryParams);
         return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return AddressListResponse
+     */
+    public function getAddresses($queryParams = []) {
+        $json = $this->request("GET", "/addresses", $queryParams);
+        return $this->mapper->map($json, new AddressListResponse());
     }
 
     /**
@@ -737,6 +817,14 @@ class CoreClient {
     }
 
     /**
+     * @return AddressSingleResponse
+     */
+    public function getAddress($id, $queryParams = []) {
+        $json = $this->request("GET", "/addresses/$id", $queryParams);
+        return $this->mapper->map($json, new AddressSingleResponse());
+    }
+
+    /**
      * @return SSLCertificateSingleResponse
      */
     public function createSSLCertificate($body, $queryParams = []) {
@@ -758,6 +846,22 @@ class CoreClient {
     public function scheduleDomainDelete($body, $name, $queryParams = []) {
         $json = $this->request("POST", "/domains/$name/schedule-delete", $queryParams, $body);
         return $this->mapper->map($json, new DomainSingleResponse());
+    }
+
+    /**
+     * @return ServerBackupSingleResponse
+     */
+    public function getServerBackup($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-backups/$id", $queryParams);
+        return $this->mapper->map($json, new ServerBackupSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerBackup($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-backups/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
     }
 
     /**
@@ -835,6 +939,14 @@ class CoreClient {
     /**
      * @return EmptyResponse
      */
+    public function resizeServer($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/resize", $queryParams, $body);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
     public function restoreDomain($name, $queryParams = []) {
         $json = $this->request("POST", "/domains/$name/restore", $queryParams);
         return $this->mapper->map($json, new EmptyResponse());
@@ -902,6 +1014,14 @@ class CoreClient {
     public function getNetwork($id, $queryParams = []) {
         $json = $this->request("GET", "/networks/$id", $queryParams);
         return $this->mapper->map($json, new NetworkSingleResponse());
+    }
+
+    /**
+     * @return LabelListResponse
+     */
+    public function getLabels($queryParams = []) {
+        $json = $this->request("GET", "/labels", $queryParams);
+        return $this->mapper->map($json, new LabelListResponse());
     }
 
     /**
@@ -984,6 +1104,14 @@ class Server {
     /**
      * @var string
      */
+    public $zone_id;
+    /**
+     * @var Address[]
+     */
+    public $addresses;
+    /**
+     * @var string
+     */
     public $variant_id;
     /**
      * @var string
@@ -1051,6 +1179,25 @@ class DomainRequestNameserver {
      * @var string
      */
     public $name;
+}
+
+class Label {
+    /**
+     * @var ObjectType
+     */
+    public $object_type;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $value;
+    /**
+     * @var string
+     */
+    public $object_id;
 }
 
 class PleskLicenseType {
@@ -1217,6 +1364,454 @@ class DomainHandle {
     public $privacy_protection;
 }
 
+class ServerBackup {
+    /**
+     * @var float
+     */
+    public $size;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $action_id;
+    /**
+     * @var bool
+     */
+    public $scheduled;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var ServerBackupState
+     */
+    public $state;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
+class DomainAuthinfo {
+    /**
+     * @var string
+     */
+    public $valid_until;
+    /**
+     * @var string
+     */
+    public $authinfo;
+}
+
+class Network {
+    /**
+     * @var string
+     */
+    public $zone_id;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var int
+     */
+    public $tag;
+    /**
+     * @var string
+     */
+    public $title;
+    /**
+     * @var NetworkType
+     */
+    public $type;
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
+class ServerStatus {
+    /**
+     * @var int
+     */
+    public $memory;
+    /**
+     * @var bool
+     */
+    public $online;
+    /**
+     * @var float
+     */
+    public $memory_usage;
+    /**
+     * @var float
+     */
+    public $cpu_usage;
+    /**
+     * @var int
+     */
+    public $uptime;
+}
+
+class ResponseMessages {
+    /**
+     * @var ResponseMessage[]
+     */
+    public $warnings;
+    /**
+     * @var ResponseMessage[]
+     */
+    public $errors;
+    /**
+     * @var ResponseMessage[]
+     */
+    public $infos;
+}
+
+abstract class ServerActionState {
+    const STARTED = "STARTED";
+    const CANCELLED = "CANCELLED";
+    const FAILED = "FAILED";
+    const SUCCESS = "SUCCESS";
+}
+
+class ServerVolume {
+    /**
+     * @var string
+     */
+    public $zone_id;
+    /**
+     * @var int
+     */
+    public $size;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $storage_id;
+    /**
+     * @var string
+     */
+    public $class_id;
+    /**
+     * @var bool
+     */
+    public $root;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $title;
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
+class DNSRecord {
+    /**
+     * @var string
+     */
+    public $data;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $type;
+    /**
+     * @var int
+     */
+    public $ttl;
+}
+
+class DNSZone {
+    /**
+     * @var string
+     */
+    public $hostmaster;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $type;
+    /**
+     * @var string
+     */
+    public $ns2;
+    /**
+     * @var string
+     */
+    public $ns1;
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
+class AvailabilityZone {
+    /**
+     * @var string
+     */
+    public $country_code;
+    /**
+     * @var string
+     */
+    public $city;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
+class ResponseMessage {
+    /**
+     * @var string
+     */
+    public $message;
+    /**
+     * @var string
+     */
+    public $key;
+}
+
+class ResponsePagination {
+    /**
+     * @var int
+     */
+    public $total;
+    /**
+     * @var int
+     */
+    public $page;
+    /**
+     * @var int
+     */
+    public $page_size;
+}
+
+class ScheduledServerAction {
+    /**
+     * @var string
+     */
+    public $backup_id;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var ScheduledServerActionInterval
+     */
+    public $interval;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $execute_at;
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var ServerActionType
+     */
+    public $type;
+}
+
+class Domain {
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $admin_handle_code;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $owner_handle_code;
+    /**
+     * @var string
+     */
+    public $tech_handle_code;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $zone_handle_code;
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
+class Subnet {
+    /**
+     * @var string
+     */
+    public $network_id;
+    /**
+     * @var string
+     */
+    public $address;
+    /**
+     * @var int
+     */
+    public $prefix;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+}
+
+class ServerStorageClass {
+    /**
+     * @var int
+     */
+    public $replication;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
+class ResponseMetadata {
+    /**
+     * @var string
+     */
+    public $transaction_id;
+    /**
+     * @var string
+     */
+    public $build_commit;
+    /**
+     * @var string
+     */
+    public $build_timestamp;
+}
+
+class ServerGraphEntry {
+    /**
+     * @var int
+     */
+    public $disk_read;
+    /**
+     * @var float
+     */
+    public $memory;
+    /**
+     * @var float
+     */
+    public $network_ingress;
+    /**
+     * @var float
+     */
+    public $network_egress;
+    /**
+     * @var float
+     */
+    public $memory_usage;
+    /**
+     * @var int
+     */
+    public $time;
+    /**
+     * @var float
+     */
+    public $cpu_usage;
+    /**
+     * @var int
+     */
+    public $disk_write;
+}
+
+abstract class ObjectType {
+    const DOMAIN = "DOMAIN";
+    const DOMAIN_HANDLE = "DOMAIN_HANDLE";
+    const SSH_KEY = "SSH_KEY";
+    const PLESK_LICENSE = "PLESK_LICENSE";
+    const SSL_CERTIFICATE = "SSL_CERTIFICATE";
+    const SSL_ORGANISATION = "SSL_ORGANISATION";
+    const SSL_CONTACT = "SSL_CONTACT";
+    const S3_BUCKET = "S3_BUCKET";
+    const S3_ACCESS_KEY = "S3_ACCESS_KEY";
+    const S3_ACCESS_GRANT = "S3_ACCESS_GRANT";
+    const DNS_ZONE = "DNS_ZONE";
+    const SERVER = "SERVER";
+    const SERVER_VOLUME = "SERVER_VOLUME";
+    const SERVER_MEDIA = "SERVER_MEDIA";
+    const NETWORK = "NETWORK";
+}
+
 class S3AccessKey {
     /**
      * @var string
@@ -1278,17 +1873,6 @@ class S3AccessGrant {
     public $labels;
 }
 
-class DomainAuthinfo {
-    /**
-     * @var string
-     */
-    public $valid_until;
-    /**
-     * @var string
-     */
-    public $authinfo;
-}
-
 class ServerTemplate {
     /**
      * @var string
@@ -1305,62 +1889,10 @@ abstract class NetworkType {
     const VXLAN = "VXLAN";
 }
 
-class Network {
-    /**
-     * @var string
-     */
-    public $zone_id;
-    /**
-     * @var string
-     */
-    public $project_id;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var int
-     */
-    public $tag;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var NetworkType
-     */
-    public $type;
-    /**
-     * @var object
-     */
-    public $labels;
-}
-
-class ServerStatus {
-    /**
-     * @var int
-     */
-    public $memory;
-    /**
-     * @var bool
-     */
-    public $online;
-    /**
-     * @var float
-     */
-    public $memory_usage;
-    /**
-     * @var float
-     */
-    public $cpu_usage;
-    /**
-     * @var int
-     */
-    public $uptime;
+abstract class ServerBackupState {
+    const PENDING = "PENDING";
+    const SUCCESS = "SUCCESS";
+    const FAILED = "FAILED";
 }
 
 class SSLType {
@@ -1379,21 +1911,6 @@ class DomainCheckResult {
      * @var bool
      */
     public $available;
-}
-
-class ResponseMessages {
-    /**
-     * @var ResponseMessage[]
-     */
-    public $warnings;
-    /**
-     * @var ResponseMessage[]
-     */
-    public $errors;
-    /**
-     * @var ResponseMessage[]
-     */
-    public $infos;
 }
 
 class SSLContact {
@@ -1556,68 +2073,6 @@ class SSLCertificate {
     public $labels;
 }
 
-class ServerVolume {
-    /**
-     * @var int
-     */
-    public $size;
-    /**
-     * @var string
-     */
-    public $project_id;
-    /**
-     * @var string
-     */
-    public $class_id;
-    /**
-     * @var bool
-     */
-    public $root;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var string
-     */
-    public $server_id;
-    /**
-     * @var object
-     */
-    public $labels;
-}
-
-class DNSRecord {
-    /**
-     * @var string
-     */
-    public $data;
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $type;
-    /**
-     * @var int
-     */
-    public $ttl;
-}
-
 class ServerVNC {
     /**
      * @var string
@@ -1631,56 +2086,6 @@ class ServerVNC {
      * @var string
      */
     public $host;
-}
-
-class DNSZone {
-    /**
-     * @var string
-     */
-    public $hostmaster;
-    /**
-     * @var string
-     */
-    public $project_id;
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var string
-     */
-    public $type;
-    /**
-     * @var string
-     */
-    public $ns2;
-    /**
-     * @var string
-     */
-    public $ns1;
-    /**
-     * @var object
-     */
-    public $labels;
-}
-
-class AvailabilityZone {
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var object
-     */
-    public $config;
 }
 
 class ServerNetwork {
@@ -1737,15 +2142,11 @@ class ServerStorage {
     public $id;
 }
 
-class ResponseMessage {
-    /**
-     * @var string
-     */
-    public $message;
-    /**
-     * @var string
-     */
-    public $key;
+abstract class ScheduledServerActionInterval {
+    const DAILY = "DAILY";
+    const WEEKLY = "WEEKLY";
+    const BI_WEEKLY = "BI_WEEKLY";
+    const ONCE = "ONCE";
 }
 
 class ServerMedia {
@@ -1777,21 +2178,6 @@ class ServerMedia {
      * @var object
      */
     public $labels;
-}
-
-class ResponsePagination {
-    /**
-     * @var int
-     */
-    public $total;
-    /**
-     * @var int
-     */
-    public $page;
-    /**
-     * @var int
-     */
-    public $page_size;
 }
 
 class SSLOrganisation {
@@ -1861,46 +2247,18 @@ class SSLOrganisation {
     public $fax;
 }
 
+abstract class ServerActionType {
+    const START = "START";
+    const SHUTDOWN = "SHUTDOWN";
+    const STOP = "STOP";
+    const RESIZE = "RESIZE";
+}
+
 class ServerCreateRequestNetwork {
     /**
      * @var string
      */
     public $network_id;
-}
-
-class Domain {
-    /**
-     * @var string
-     */
-    public $project_id;
-    /**
-     * @var string
-     */
-    public $admin_handle_code;
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $owner_handle_code;
-    /**
-     * @var string
-     */
-    public $tech_handle_code;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var string
-     */
-    public $zone_handle_code;
-    /**
-     * @var object
-     */
-    public $labels;
 }
 
 class ServerVariant {
@@ -1930,44 +2288,6 @@ class ServerVariant {
     public $title;
 }
 
-class Subnet {
-    /**
-     * @var string
-     */
-    public $network_id;
-    /**
-     * @var string
-     */
-    public $address;
-    /**
-     * @var int
-     */
-    public $prefix;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var string
-     */
-    public $id;
-}
-
-class ServerStorageClass {
-    /**
-     * @var int
-     */
-    public $replication;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $title;
-}
-
 class ServerAction {
     /**
      * @var string
@@ -1978,11 +2298,11 @@ class ServerAction {
      */
     public $id;
     /**
-     * @var string
+     * @var ServerActionState
      */
     public $state;
     /**
-     * @var string
+     * @var ServerActionType
      */
     public $type;
     /**
@@ -1993,21 +2313,6 @@ class ServerAction {
      * @var string
      */
     public $ended_at;
-}
-
-class ResponseMetadata {
-    /**
-     * @var string
-     */
-    public $transaction_id;
-    /**
-     * @var string
-     */
-    public $build_commit;
-    /**
-     * @var string
-     */
-    public $build_timestamp;
 }
 
 class S3AccessGrantListResponse {
@@ -2201,6 +2506,25 @@ class SubnetListResponse {
     public $messages;
 }
 
+class ServerGraphResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerGraphEntry[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class PleskLicenseSingleResponse {
     /**
      * @var ResponseMetadata
@@ -2208,6 +2532,29 @@ class PleskLicenseSingleResponse {
     public $metadata;
     /**
      * @var PleskLicense
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerBackupListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerBackup[]
      */
     public $data;
     /**
@@ -2777,6 +3124,29 @@ class EmptyResponse {
     public $messages;
 }
 
+class ScheduledServerActionListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ScheduledServerAction[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class PleskLicenseTypeListResponse {
     /**
      * @var ResponseMetadata
@@ -3040,6 +3410,25 @@ class DomainSingleResponse {
     public $messages;
 }
 
+class ServerBackupSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerBackup
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class DNSRecordSingleResponse {
     /**
      * @var ResponseMetadata
@@ -3258,6 +3647,29 @@ class SSLCertificateListResponse {
     public $messages;
 }
 
+class LabelListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var Label[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class S3AccessKeySingleResponse {
     /**
      * @var ResponseMetadata
@@ -3359,6 +3771,36 @@ class DomainAuthinfoResponse {
      * @var ResponseMessages
      */
     public $messages;
+}
+
+class ScheduledServerActionSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ScheduledServerAction
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerBackupCreateRequest {
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var string
+     */
+    public $title;
 }
 
 class DomainHandleCreateRequest {
@@ -3652,7 +4094,7 @@ class NetworkCreateRequest {
 
 class ServerVariantCreateRequest {
     /**
-     * @var string
+     * @var string[]
      */
     public $zone_ids;
     /**
@@ -3775,6 +4217,25 @@ class SSLCertificateCreateRequest {
     public $labels;
 }
 
+class ScheduledServerActionCreateRequest {
+    /**
+     * @var string
+     */
+    public $backup_id;
+    /**
+     * @var ScheduledServerActionInterval
+     */
+    public $interval;
+    /**
+     * @var string
+     */
+    public $execute_at;
+    /**
+     * @var ServerActionType
+     */
+    public $type;
+}
+
 class SSHKeyCreateRequest {
     /**
      * @var string
@@ -3809,6 +4270,14 @@ class AvailabilityZoneCreateRequest {
     /**
      * @var string
      */
+    public $country_code;
+    /**
+     * @var string
+     */
+    public $city;
+    /**
+     * @var string
+     */
     public $title;
     /**
      * @var object
@@ -3824,6 +4293,14 @@ class ServerNetworkCreateRequest {
 }
 
 class AvailabilityZoneUpdateRequest {
+    /**
+     * @var string
+     */
+    public $country_code;
+    /**
+     * @var string
+     */
+    public $city;
     /**
      * @var string
      */
@@ -3966,6 +4443,33 @@ class DomainUpdateRequest {
      * @var string
      */
     public $zone_handle_code;
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
+class ServerVolumeCreateRequest {
+    /**
+     * @var string
+     */
+    public $zone_id;
+    /**
+     * @var int
+     */
+    public $size;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $class_id;
+    /**
+     * @var string
+     */
+    public $title;
     /**
      * @var object
      */
@@ -4161,6 +4665,13 @@ class PleskLicenseUpdateRequest {
     public $labels;
 }
 
+class ServerRestoreRequest {
+    /**
+     * @var string
+     */
+    public $backup_id;
+}
+
 class S3BucketCreateRequest {
     /**
      * @var string
@@ -4213,4 +4724,14 @@ class ServerVolumeAttachRequest {
     public $server_id;
 }
 
-/* ERROR */
+/* ERROR */class ServerResizeRequest {
+    /**
+     * @var string
+     */
+    public $variant_id;
+    /**
+     * @var bool
+     */
+    public $resize_disk;
+}
+

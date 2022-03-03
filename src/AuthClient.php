@@ -83,8 +83,8 @@ class AuthClient {
     /**
      * @return UserSingleResponse
      */
-    public function createUser($queryParams = []) {
-        $json = $this->request("POST", "/users", $queryParams);
+    public function createUser($body, $queryParams = []) {
+        $json = $this->request("POST", "/users", $queryParams, $body);
         return $this->mapper->map($json, new UserSingleResponse());
     }
 
@@ -105,6 +105,14 @@ class AuthClient {
     }
 
     /**
+     * @return UserSingleResponse
+     */
+    public function updateUser($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/users/$id", $queryParams, $body);
+        return $this->mapper->map($json, new UserSingleResponse());
+    }
+
+    /**
      * @return EmptyResponse
      */
     public function requestPasswordReset($body, $queryParams = []) {
@@ -121,6 +129,14 @@ class AuthClient {
     }
 
     /**
+     * @return AuditLogResponse
+     */
+    public function searchAuditLog($body, $queryParams = []) {
+        $json = $this->request("POST", "/audit-log", $queryParams, $body);
+        return $this->mapper->map($json, new AuditLogResponse());
+    }
+
+    /**
      * @return TokenSingleResponse
      */
     public function createToken($body, $queryParams = []) {
@@ -134,6 +150,14 @@ class AuthClient {
     public function getTokens($queryParams = []) {
         $json = $this->request("GET", "/tokens", $queryParams);
         return $this->mapper->map($json, new TokenListResponse());
+    }
+
+    /**
+     * @return CountrySingleResponse
+     */
+    public function getCountry($code, $queryParams = []) {
+        $json = $this->request("GET", "/countries/$code", $queryParams);
+        return $this->mapper->map($json, new CountrySingleResponse());
     }
 
     /**
@@ -190,6 +214,14 @@ class AuthClient {
     public function getUserProjectMemberships($id, $queryParams = []) {
         $json = $this->request("GET", "/users/$id/project_memberships", $queryParams);
         return $this->mapper->map($json, new ProjectMemberListResponse());
+    }
+
+    /**
+     * @return CountryListResponse
+     */
+    public function getCountries($queryParams = []) {
+        $json = $this->request("GET", "/countries", $queryParams);
+        return $this->mapper->map($json, new CountryListResponse());
     }
 
 
@@ -327,6 +359,17 @@ class TokenScope {
     public $project_id;
 }
 
+class Country {
+    /**
+     * @var string
+     */
+    public $code;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
 class ResponseMessages {
     /**
      * @var ResponseMessage[]
@@ -377,29 +420,6 @@ class ResponseMetadata {
     public $build_timestamp;
 }
 
-class ProjectMemberListResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var ResponsePagination
-     */
-    public $pagination;
-    /**
-     * @var ProjectMember[]
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
 class TokenListResponse {
     /**
      * @var ResponseMetadata
@@ -430,25 +450,6 @@ class LoginResponse {
     public $metadata;
     /**
      * @var Token
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
-class UserSingleResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var User
      */
     public $data;
     /**
@@ -529,6 +530,109 @@ class TokenSingleResponse {
     public $metadata;
     /**
      * @var Token
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class AuditLogResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var object[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class CountrySingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var Country
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ProjectMemberListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ProjectMember[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class CountryListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var Country[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class UserSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var User
      */
     public $data;
     /**
@@ -656,6 +760,45 @@ class ProjectUpdateRequest {
     public $title;
 }
 
+class UserUpdateRequest {
+    /**
+     * @var string
+     */
+    public $password;
+    /**
+     * @var Gender
+     */
+    public $gender;
+    /**
+     * @var string
+     */
+    public $last_name;
+    /**
+     * @var string
+     */
+    public $company;
+    /**
+     * @var UserState
+     */
+    public $state;
+    /**
+     * @var UserType
+     */
+    public $type;
+    /**
+     * @var int
+     */
+    public $customer_id;
+    /**
+     * @var string
+     */
+    public $first_name;
+    /**
+     * @var string
+     */
+    public $email;
+}
+
 class UserCreateRequest {
     /**
      * @var string
@@ -685,5 +828,20 @@ class UserCreateRequest {
      * @var string
      */
     public $email;
+}
+
+class AuditLogRequest {
+    /**
+     * @var object
+     */
+    public $query;
+    /**
+     * @var int
+     */
+    public $limit;
+    /**
+     * @var object
+     */
+    public $sort;
 }
 

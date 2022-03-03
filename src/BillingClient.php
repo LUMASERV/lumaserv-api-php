@@ -41,6 +41,22 @@ class BillingClient {
     }
 
     /**
+     * @return InvoicePositionSingleResponse
+     */
+    public function createInvoicePosition($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/invoices/$id/positions", $queryParams, $body);
+        return $this->mapper->map($json, new InvoicePositionSingleResponse());
+    }
+
+    /**
+     * @return InvoicePositionListResponse
+     */
+    public function getInvoicePositions($id, $queryParams = []) {
+        $json = $this->request("GET", "/invoices/$id/positions", $queryParams);
+        return $this->mapper->map($json, new InvoicePositionListResponse());
+    }
+
+    /**
      * @return BillingPositionSingleResponse
      */
     public function getBillingPosition($id, $queryParams = []) {
@@ -62,22 +78,6 @@ class BillingClient {
     public function updateBillingPosition($body, $id, $queryParams = []) {
         $json = $this->request("PUT", "/billing-positions/$id", $queryParams, $body);
         return $this->mapper->map($json, new BillingPositionSingleResponse());
-    }
-
-    /**
-     * @return BankAccountSingleResponse
-     */
-    public function createBankAccount($body, $queryParams = []) {
-        $json = $this->request("POST", "/bank-accounts", $queryParams, $body);
-        return $this->mapper->map($json, new BankAccountSingleResponse());
-    }
-
-    /**
-     * @return BankAccountListResponse
-     */
-    public function getBankAccounts($queryParams = []) {
-        $json = $this->request("GET", "/bank-accounts", $queryParams);
-        return $this->mapper->map($json, new BankAccountListResponse());
     }
 
     /**
@@ -129,30 +129,6 @@ class BillingClient {
     }
 
     /**
-     * @return InvoicePositionSingleResponse
-     */
-    public function getInvoicePosition($id, $queryParams = []) {
-        $json = $this->request("GET", "/invoice-positions/$id", $queryParams);
-        return $this->mapper->map($json, new InvoicePositionSingleResponse());
-    }
-
-    /**
-     * @return EmptyResponse
-     */
-    public function deleteInvoicePosition($id, $queryParams = []) {
-        $json = $this->request("DELETE", "/invoice-positions/$id", $queryParams);
-        return $this->mapper->map($json, new EmptyResponse());
-    }
-
-    /**
-     * @return InvoicePositionSingleResponse
-     */
-    public function updateInvoicePosition($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/invoice-positions/$id", $queryParams, $body);
-        return $this->mapper->map($json, new InvoicePositionSingleResponse());
-    }
-
-    /**
      * @return DebitListResponse
      */
     public function getDebits($queryParams = []) {
@@ -182,14 +158,6 @@ class BillingClient {
     public function getOnlinePayments($queryParams = []) {
         $json = $this->request("GET", "/online-payments", $queryParams);
         return $this->mapper->map($json, new OnlinePaymentListResponse());
-    }
-
-    /**
-     * @return FileDownloadResponse
-     */
-    public function getFileDownload($id, $queryParams = []) {
-        $json = $this->request("GET", "/files/$id/download", $queryParams);
-        return $this->mapper->map($json, new FileDownloadResponse());
     }
 
     /**
@@ -230,14 +198,6 @@ class BillingClient {
     public function updateOfferPosition($body, $id, $queryParams = []) {
         $json = $this->request("PUT", "/offer-positions/$id", $queryParams, $body);
         return $this->mapper->map($json, new OfferPositionSingleResponse());
-    }
-
-    /**
-     * @return FileSingleResponse
-     */
-    public function getFile($id, $queryParams = []) {
-        $json = $this->request("GET", "/files/$id", $queryParams);
-        return $this->mapper->map($json, new FileSingleResponse());
     }
 
     /**
@@ -313,30 +273,6 @@ class BillingClient {
     }
 
     /**
-     * @return BankAccountSingleResponse
-     */
-    public function getBankAccount($id, $queryParams = []) {
-        $json = $this->request("GET", "/bank-accounts/$id", $queryParams);
-        return $this->mapper->map($json, new BankAccountSingleResponse());
-    }
-
-    /**
-     * @return EmptyResponse
-     */
-    public function deleteBankAccount($id, $queryParams = []) {
-        $json = $this->request("DELETE", "/bank-accounts/$id", $queryParams);
-        return $this->mapper->map($json, new EmptyResponse());
-    }
-
-    /**
-     * @return BankAccountSingleResponse
-     */
-    public function updateBankAccount($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/bank-accounts/$id", $queryParams, $body);
-        return $this->mapper->map($json, new BankAccountSingleResponse());
-    }
-
-    /**
      * @return BankTransactionSingleResponse
      */
     public function getBankTransaction($id, $queryParams = []) {
@@ -361,11 +297,27 @@ class BillingClient {
     }
 
     /**
-     * @return FileListResponse
+     * @return InvoicePositionSingleResponse
      */
-    public function getFiles($queryParams = []) {
-        $json = $this->request("GET", "/files", $queryParams);
-        return $this->mapper->map($json, new FileListResponse());
+    public function getInvoicePosition($invoice_id, $id, $queryParams = []) {
+        $json = $this->request("GET", "/invoices/$invoice_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new InvoicePositionSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteInvoicePosition($invoice_id, $id, $queryParams = []) {
+        $json = $this->request("DELETE", "/invoices/$invoice_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return InvoicePositionSingleResponse
+     */
+    public function updateInvoicePosition($body, $invoice_id, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/invoices/$invoice_id/positions/$id", $queryParams, $body);
+        return $this->mapper->map($json, new InvoicePositionSingleResponse());
     }
 
     /**
@@ -393,6 +345,14 @@ class BillingClient {
     }
 
     /**
+     * @return EmptyResponse
+     */
+    public function deleteInvoice($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/invoices/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
      * @return InvoiceSingleResponse
      */
     public function updateInvoice($body, $id, $queryParams = []) {
@@ -406,30 +366,6 @@ class BillingClient {
     public function getOnlinePayment($id, $queryParams = []) {
         $json = $this->request("GET", "/online-payments/$id", $queryParams);
         return $this->mapper->map($json, new OnlinePaymentSingleResponse());
-    }
-
-    /**
-     * @return CustomerTransactionSingleResponse
-     */
-    public function getCustomerTransaction($id, $queryParams = []) {
-        $json = $this->request("GET", "/customer-transactions/$id", $queryParams);
-        return $this->mapper->map($json, new CustomerTransactionSingleResponse());
-    }
-
-    /**
-     * @return InvoicePositionSingleResponse
-     */
-    public function createInvoicePosition($body, $queryParams = []) {
-        $json = $this->request("POST", "/invoice-positions", $queryParams, $body);
-        return $this->mapper->map($json, new InvoicePositionSingleResponse());
-    }
-
-    /**
-     * @return InvoicePositionListResponse
-     */
-    public function getInvoicePositions($queryParams = []) {
-        $json = $this->request("GET", "/invoice-positions", $queryParams);
-        return $this->mapper->map($json, new InvoicePositionListResponse());
     }
 
     /**
@@ -481,14 +417,6 @@ class BillingClient {
     }
 
     /**
-     * @return CustomerTransactionListResponse
-     */
-    public function getCustomerTransactions($queryParams = []) {
-        $json = $this->request("GET", "/customer-transactions", $queryParams);
-        return $this->mapper->map($json, new CustomerTransactionListResponse());
-    }
-
-    /**
      * @return OfferPositionSingleResponse
      */
     public function createOfferPosition($body, $queryParams = []) {
@@ -527,6 +455,37 @@ abstract class BillingInterval {
     const QUARTERLY = "QUARTERLY";
     const SEMI_ANNUAL = "SEMI_ANNUAL";
     const ANNUAL = "ANNUAL";
+}
+
+class InvoiceDetailed {
+    /**
+     * @var string
+     */
+    public $paid_at;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $due_at;
+    /**
+     * @var InvoicePosition[]
+     */
+    public $positions;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var InvoiceState
+     */
+    public $state;
+    /**
+     * @var int
+     */
+    public $customer_id;
 }
 
 class OfferCreateRequestPosition {
@@ -576,11 +535,7 @@ class Invoice {
     /**
      * @var string
      */
-    public $cancelled_at;
-    /**
-     * @var string
-     */
-    public $number;
+    public $created_at;
     /**
      * @var string
      */
@@ -594,44 +549,12 @@ class Invoice {
      */
     public $state;
     /**
-     * @var float
-     */
-    public $net_amount;
-    /**
      * @var int
      */
     public $customer_id;
 }
 
 class Customer {
-    /**
-     * @var string
-     */
-    public $additional_address;
-    /**
-     * @var string
-     */
-    public $city;
-    /**
-     * @var string
-     */
-    public $last_name;
-    /**
-     * @var BillingInterval
-     */
-    public $billing_interval;
-    /**
-     * @var float
-     */
-    public $custom_vat_rate;
-    /**
-     * @var string
-     */
-    public $country_code;
-    /**
-     * @var InvoiceShippingType
-     */
-    public $invoice_shipping_type;
     /**
      * @var float
      */
@@ -643,15 +566,7 @@ class Customer {
     /**
      * @var string
      */
-    public $street;
-    /**
-     * @var string
-     */
     public $company_name;
-    /**
-     * @var string
-     */
-    public $street_number;
     /**
      * @var float
      */
@@ -659,23 +574,19 @@ class Customer {
     /**
      * @var string
      */
-    public $vat_id;
+    public $last_name;
     /**
-     * @var int
+     * @var BillingInterval
+     */
+    public $billing_interval;
+    /**
+     * @var string
      */
     public $id;
     /**
      * @var string
      */
-    public $postal_code;
-    /**
-     * @var string
-     */
     public $first_name;
-    /**
-     * @var string
-     */
-    public $email;
     /**
      * @var string
      */
@@ -776,37 +687,6 @@ class PaymentReminder {
     public $customer_id;
 }
 
-class CustomerTransaction {
-    /**
-     * @var string
-     */
-    public $date;
-    /**
-     * @var float
-     */
-    public $amount;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var int
-     */
-    public $customer_id;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var CustomerTransactionType
-     */
-    public $type;
-    /**
-     * @var string
-     */
-    public $object_id;
-}
-
 class FileDownload {
     /**
      * @var string
@@ -834,15 +714,11 @@ class InvoiceCreateRequestPosition {
     /**
      * @var string
      */
-    public $invoice_id;
+    public $name;
     /**
      * @var string
      */
     public $description;
-    /**
-     * @var string
-     */
-    public $title;
     /**
      * @var float
      */
@@ -850,7 +726,7 @@ class InvoiceCreateRequestPosition {
     /**
      * @var string
      */
-    public $group_key;
+    public $group;
 }
 
 class ResponseMessages {
@@ -866,6 +742,81 @@ class ResponseMessages {
      * @var ResponseMessage[]
      */
     public $infos;
+}
+
+class CustomerDetailed {
+    /**
+     * @var string
+     */
+    public $additional_address;
+    /**
+     * @var string
+     */
+    public $city;
+    /**
+     * @var string
+     */
+    public $last_name;
+    /**
+     * @var BillingInterval
+     */
+    public $billing_interval;
+    /**
+     * @var string
+     */
+    public $country_code;
+    /**
+     * @var float
+     */
+    public $balance;
+    /**
+     * @var string
+     */
+    public $user_id;
+    /**
+     * @var string
+     */
+    public $street;
+    /**
+     * @var string
+     */
+    public $tax_number;
+    /**
+     * @var string
+     */
+    public $company_name;
+    /**
+     * @var float
+     */
+    public $credit_limit;
+    /**
+     * @var string
+     */
+    public $street_number;
+    /**
+     * @var string
+     */
+    public $vat_id;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $postal_code;
+    /**
+     * @var string
+     */
+    public $first_name;
+    /**
+     * @var string
+     */
+    public $email;
+    /**
+     * @var string
+     */
+    public $next_billing_date;
 }
 
 class Debit {
@@ -968,11 +919,6 @@ class ServiceContractPosition {
     public $vat_rate;
 }
 
-abstract class InvoiceShippingType {
-    const EMAIL = "EMAIL";
-    const MAIL = "MAIL";
-}
-
 class ServiceContract {
     /**
      * @var int
@@ -1010,37 +956,6 @@ abstract class OfferPositionInterval {
     const QUARTERLY = "QUARTERLY";
     const SEMI_ANNUAL = "SEMI_ANNUAL";
     const ANNUAL = "ANNUAL";
-}
-
-class BankAccount {
-    /**
-     * @var string
-     */
-    public $bank_code;
-    /**
-     * @var string
-     */
-    public $bank_account_number;
-    /**
-     * @var int
-     */
-    public $bank_port;
-    /**
-     * @var string
-     */
-    public $bank_url;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var string
-     */
-    public $username;
 }
 
 class ResponseMessage {
@@ -1166,11 +1081,11 @@ class BillingPosition {
      */
     public $invoice_position_id;
     /**
-     * @var string
+     * @var float
      */
     public $amount;
     /**
-     * @var string
+     * @var float
      */
     public $price;
     /**
@@ -1182,7 +1097,7 @@ class BillingPosition {
      */
     public $id;
     /**
-     * @var string
+     * @var int
      */
     public $customer_id;
     /**
@@ -1194,7 +1109,7 @@ class BillingPosition {
      */
     public $available_at;
     /**
-     * @var string
+     * @var float
      */
     public $vat_rate;
     /**
@@ -1272,13 +1187,17 @@ class InvoicePosition {
      */
     public $unit;
     /**
+     * @var string
+     */
+    public $updated_at;
+    /**
      * @var float
      */
     public $price;
     /**
      * @var string
      */
-    public $invoice_id;
+    public $name;
     /**
      * @var string
      */
@@ -1286,15 +1205,11 @@ class InvoicePosition {
     /**
      * @var string
      */
-    public $id;
+    public $created_at;
     /**
-     * @var int
+     * @var float
      */
-    public $customer_id;
-    /**
-     * @var string
-     */
-    public $title;
+    public $position;
     /**
      * @var float
      */
@@ -1306,11 +1221,9 @@ class InvoicePosition {
 }
 
 abstract class InvoiceState {
+    const OPEN = "OPEN";
     const DRAFT = "DRAFT";
-    const PENDING = "PENDING";
-    const PAID = "PAID";
-    const CANCELLED = "CANCELLED";
-    const FAILED = "FAILED";
+    const FINAL = "FINAL";
 }
 
 class File {
@@ -1356,71 +1269,6 @@ class ResponseMetadata {
      * @var string
      */
     public $build_timestamp;
-}
-
-class CustomerTransactionListResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var ResponsePagination
-     */
-    public $pagination;
-    /**
-     * @var CustomerTransaction[]
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
-class CustomerTransactionSingleResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var CustomerTransaction
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
-class FileListResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var ResponsePagination
-     */
-    public $pagination;
-    /**
-     * @var File[]
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
 }
 
 class ServiceContractListResponse {
@@ -1568,44 +1416,6 @@ class DebitMandateSingleResponse {
     public $messages;
 }
 
-class FileSingleResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var string
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
-class FileDownloadResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var FileDownload
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
 class DebitMandateListResponse {
     /**
      * @var ResponseMetadata
@@ -1736,25 +1546,6 @@ class InvoicePositionListResponse {
     public $messages;
 }
 
-class BankAccountSingleResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var BankAccount
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
 class BankTransactionSingleResponse {
     /**
      * @var ResponseMetadata
@@ -1839,29 +1630,6 @@ class InvoicePositionSingleResponse {
     public $messages;
 }
 
-class BankAccountListResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var ResponsePagination
-     */
-    public $pagination;
-    /**
-     * @var BankAccount[]
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
 class OfferListResponse {
     /**
      * @var ResponseMetadata
@@ -1891,7 +1659,7 @@ class InvoiceSingleResponse {
      */
     public $metadata;
     /**
-     * @var Invoice
+     * @var InvoiceDetailed
      */
     public $data;
     /**
@@ -1910,7 +1678,7 @@ class CustomerSingleResponse {
      */
     public $metadata;
     /**
-     * @var Customer
+     * @var CustomerDetailed
      */
     public $data;
     /**
@@ -2106,23 +1874,11 @@ class InvoiceCreateRequest {
     /**
      * @var string
      */
-    public $paid_at;
-    /**
-     * @var string
-     */
-    public $cancelled_at;
-    /**
-     * @var string
-     */
     public $due_at;
     /**
      * @var InvoiceCreateRequestPosition[]
      */
     public $positions;
-    /**
-     * @var InvoiceState
-     */
-    public $state;
     /**
      * @var int
      */
@@ -2172,6 +1928,10 @@ class CustomerCreateRequest {
     /**
      * @var string
      */
+    public $gender;
+    /**
+     * @var string
+     */
     public $city;
     /**
      * @var string
@@ -2208,7 +1968,15 @@ class CustomerCreateRequest {
     /**
      * @var string
      */
+    public $tax_number;
+    /**
+     * @var string
+     */
     public $company_name;
+    /**
+     * @var bool
+     */
+    public $auto_finalize;
     /**
      * @var string
      */
@@ -2239,37 +2007,6 @@ class CustomerCreateRequest {
     public $email;
 }
 
-class BankAccountCreateRequest {
-    /**
-     * @var string
-     */
-    public $bank_code;
-    /**
-     * @var string
-     */
-    public $bank_account_number;
-    /**
-     * @var string
-     */
-    public $password;
-    /**
-     * @var int
-     */
-    public $bank_port;
-    /**
-     * @var string
-     */
-    public $bank_url;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var string
-     */
-    public $username;
-}
-
 class InvoicePositionUpdateRequest {
     /**
      * @var float
@@ -2286,15 +2023,11 @@ class InvoicePositionUpdateRequest {
     /**
      * @var string
      */
-    public $invoice_id;
+    public $name;
     /**
      * @var string
      */
     public $description;
-    /**
-     * @var string
-     */
-    public $title;
     /**
      * @var float
      */
@@ -2395,37 +2128,6 @@ class ServiceContractPositionUpdateRequest {
      * @var float
      */
     public $vat_rate;
-}
-
-class BankAccountUpdateRequest {
-    /**
-     * @var string
-     */
-    public $bank_code;
-    /**
-     * @var string
-     */
-    public $bank_account_number;
-    /**
-     * @var string
-     */
-    public $password;
-    /**
-     * @var int
-     */
-    public $bank_port;
-    /**
-     * @var string
-     */
-    public $bank_url;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var string
-     */
-    public $username;
 }
 
 class BillingPositionUpdateRequest {
@@ -2562,7 +2264,7 @@ class BillingPositionCreateRequest {
 
 class InvoicePositionCreateRequest {
     /**
-     * @var float
+     * @var string
      */
     public $amount;
     /**
@@ -2576,15 +2278,11 @@ class InvoicePositionCreateRequest {
     /**
      * @var string
      */
-    public $invoice_id;
+    public $name;
     /**
      * @var string
      */
     public $description;
-    /**
-     * @var string
-     */
-    public $title;
     /**
      * @var float
      */
@@ -2730,10 +2428,6 @@ class CustomerUpdateRequest {
      */
     public $country_code;
     /**
-     * @var InvoiceShippingType
-     */
-    public $invoice_shipping_type;
-    /**
      * @var float
      */
     public $balance;
@@ -2744,7 +2438,15 @@ class CustomerUpdateRequest {
     /**
      * @var string
      */
+    public $tax_number;
+    /**
+     * @var string
+     */
     public $company_name;
+    /**
+     * @var bool
+     */
+    public $auto_finalize;
     /**
      * @var string
      */
