@@ -244,7 +244,7 @@ class User {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
@@ -786,7 +786,7 @@ class UserUpdateRequest {
      */
     public $type;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
