@@ -89,6 +89,22 @@ class CoreClient {
     }
 
     /**
+     * @return ServerFirewallSingleResponse
+     */
+    public function getServerFirewall($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls/$id", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerFirewall($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-firewalls/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
      * @return ServerSingleResponse
      */
     public function getServer($id, $queryParams = []) {
@@ -189,6 +205,38 @@ class CoreClient {
      */
     public function recreateServer($id, $queryParams = []) {
         $json = $this->request("POST", "/servers/$id/recreate", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return ServerFirewallSingleResponse
+     */
+    public function createServerFirewall($body, $queryParams = []) {
+        $json = $this->request("POST", "/server-firewalls", $queryParams, $body);
+        return $this->mapper->map($json, new ServerFirewallSingleResponse());
+    }
+
+    /**
+     * @return ServerFirewallListResponse
+     */
+    public function getServerFirewalls($queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallListResponse());
+    }
+
+    /**
+     * @return ServerFirewallRuleSingleResponse
+     */
+    public function getServerFirewallRule($id, $rule_id, $queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls/$id/rules/$rule_id", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallRuleSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerFirewallRule($id, $rule_id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-firewalls/$id/rules/$rule_id", $queryParams);
         return $this->mapper->map($json, new EmptyResponse());
     }
 
@@ -393,6 +441,22 @@ class CoreClient {
     }
 
     /**
+     * @return ServerFirewallMemberSingleResponse
+     */
+    public function getServerFirewallMember($id, $member_id, $queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls/$id/members/$member_id", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallMemberSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerFirewallMember($id, $member_id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-firewalls/$id/members/$member_id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
      * @return SearchResponse
      */
     public function search($queryParams = []) {
@@ -454,6 +518,22 @@ class CoreClient {
     public function getServerStatus($id, $queryParams = []) {
         $json = $this->request("GET", "/servers/$id/status", $queryParams);
         return $this->mapper->map($json, new ServerStatusResponse());
+    }
+
+    /**
+     * @return ServerFirewallMemberSingleResponse
+     */
+    public function createServerFirewallMember($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/server-firewalls/$id/members", $queryParams, $body);
+        return $this->mapper->map($json, new ServerFirewallMemberSingleResponse());
+    }
+
+    /**
+     * @return ServerFirewallMemberListResponse
+     */
+    public function getServerFirewallMembers($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls/$id/members", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallMemberListResponse());
     }
 
     /**
@@ -545,6 +625,22 @@ class CoreClient {
     }
 
     /**
+     * @return ServerFirewallRuleSingleResponse
+     */
+    public function createServerFirewallRule($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/server-firewalls/$id/rules", $queryParams, $body);
+        return $this->mapper->map($json, new ServerFirewallRuleSingleResponse());
+    }
+
+    /**
+     * @return ServerFirewallRuleListResponse
+     */
+    public function getServerFirewallRules($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-firewalls/$id/rules", $queryParams);
+        return $this->mapper->map($json, new ServerFirewallRuleListResponse());
+    }
+
+    /**
      * @return ScheduledServerActionSingleResponse
      */
     public function createScheduledServerAction($body, $id, $queryParams = []) {
@@ -606,6 +702,14 @@ class CoreClient {
     public function getServerVolume($id, $queryParams = []) {
         $json = $this->request("GET", "/server-volumes/$id", $queryParams);
         return $this->mapper->map($json, new ServerVolumeSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerVolume($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-volumes/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
     }
 
     /**
@@ -1625,6 +1729,16 @@ class ResponseMessage {
     public $key;
 }
 
+abstract class ServerFirewallMemberType {
+    const SERVER = "SERVER";
+    const LABEL = "LABEL";
+}
+
+abstract class ServerFirewallRuleType {
+    const INGRESS = "INGRESS";
+    const EGRESS = "EGRESS";
+}
+
 class ResponsePagination {
     /**
      * @var int
@@ -1669,6 +1783,41 @@ class ScheduledServerAction {
      * @var ServerActionType
      */
     public $type;
+}
+
+class ServerFirewallMember {
+    /**
+     * @var string
+     */
+    public $label_value;
+    /**
+     * @var bool
+     */
+    public $applied;
+    /**
+     * @var ServerFirewallMember[]
+     */
+    public $children;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var ServerFirewallMemberType
+     */
+    public $type;
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var string
+     */
+    public $label_name;
 }
 
 class Domain {
@@ -1727,6 +1876,49 @@ class Subnet {
      * @var string
      */
     public $id;
+}
+
+class ServerFirewallRule {
+    /**
+     * @var string[]
+     */
+    public $source_addresses;
+    /**
+     * @var ServerFirewallRuleProtocol
+     */
+    public $protocol;
+    /**
+     * @var string[]
+     */
+    public $destination_ports;
+    /**
+     * @var string[]
+     */
+    public $destination_addresses;
+    /**
+     * @var bool
+     */
+    public $applied;
+    /**
+     * @var string
+     */
+    public $description;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string[]
+     */
+    public $source_ports;
+    /**
+     * @var ServerFirewallRuleType
+     */
+    public $type;
 }
 
 class ServerStorageClass {
@@ -2030,6 +2222,25 @@ class PleskLicense {
     public $labels;
 }
 
+class ServerFirewall {
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
 class SSLCertificate {
     /**
      * @var string
@@ -2178,6 +2389,12 @@ class ServerMedia {
      * @var object
      */
     public $labels;
+}
+
+abstract class ServerFirewallRuleProtocol {
+    const TCP = "TCP";
+    const UDP = "UDP";
+    const ICMP = "ICMP";
 }
 
 class SSLOrganisation {
@@ -2364,6 +2581,29 @@ class DomainHandleSingleResponse {
     public $metadata;
     /**
      * @var DomainHandle
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerFirewallRuleListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerFirewallRule[]
      */
     public $data;
     /**
@@ -2715,6 +2955,25 @@ class ServerVNCResponse {
     public $metadata;
     /**
      * @var ServerVNC
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerFirewallRuleSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerFirewallRule
      */
     public $data;
     /**
@@ -3429,6 +3688,29 @@ class ServerBackupSingleResponse {
     public $messages;
 }
 
+class ServerFirewallListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerFirewall[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class DNSRecordSingleResponse {
     /**
      * @var ResponseMetadata
@@ -3624,6 +3906,29 @@ class SSLContactListResponse {
     public $messages;
 }
 
+class ServerFirewallMemberListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerFirewallMember[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class SSLCertificateListResponse {
     /**
      * @var ResponseMetadata
@@ -3635,6 +3940,25 @@ class SSLCertificateListResponse {
     public $pagination;
     /**
      * @var SSLCertificate[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerFirewallSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerFirewall
      */
     public $data;
     /**
@@ -3773,6 +4097,25 @@ class DomainAuthinfoResponse {
     public $messages;
 }
 
+class ServerFirewallMemberSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerFirewallMember
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class ScheduledServerActionSingleResponse {
     /**
      * @var ResponseMetadata
@@ -3797,6 +4140,17 @@ class ServerBackupCreateRequest {
      * @var string
      */
     public $server_id;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
+class ServerFirewallCreateRequest {
+    /**
+     * @var string
+     */
+    public $project_id;
     /**
      * @var string
      */
@@ -4217,6 +4571,25 @@ class SSLCertificateCreateRequest {
     public $labels;
 }
 
+class ServerFIrewallMemberCreateRequest {
+    /**
+     * @var string
+     */
+    public $label_value;
+    /**
+     * @var ServerFirewallMemberType
+     */
+    public $type;
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var string
+     */
+    public $label_name;
+}
+
 class ScheduledServerActionCreateRequest {
     /**
      * @var string
@@ -4232,6 +4605,37 @@ class ScheduledServerActionCreateRequest {
     public $execute_at;
     /**
      * @var ServerActionType
+     */
+    public $type;
+}
+
+class ServerFirewallRuleCreateRequest {
+    /**
+     * @var string[]
+     */
+    public $source_addresses;
+    /**
+     * @var ServerFirewallRuleProtocol
+     */
+    public $protocol;
+    /**
+     * @var string[]
+     */
+    public $destination_ports;
+    /**
+     * @var string[]
+     */
+    public $destination_addresses;
+    /**
+     * @var string
+     */
+    public $description;
+    /**
+     * @var string[]
+     */
+    public $source_ports;
+    /**
+     * @var ServerFirewallRuleType
      */
     public $type;
 }

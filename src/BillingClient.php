@@ -2148,10 +2148,6 @@ class BillingPositionUpdateRequest {
      */
     public $description;
     /**
-     * @var int
-     */
-    public $customer_id;
-    /**
      * @var string
      */
     public $title;
@@ -2241,7 +2237,7 @@ class BillingPositionCreateRequest {
      */
     public $description;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
