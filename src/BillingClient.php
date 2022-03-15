@@ -2140,6 +2140,10 @@ class BillingPositionUpdateRequest {
      */
     public $amount;
     /**
+     * @var string
+     */
+    public $unit;
+    /**
      * @var float
      */
     public $price;
@@ -2228,6 +2232,10 @@ class BillingPositionCreateRequest {
      * @var float
      */
     public $amount;
+    /**
+     * @var string
+     */
+    public $unit;
     /**
      * @var float
      */
