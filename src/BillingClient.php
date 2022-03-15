@@ -483,7 +483,7 @@ class InvoiceDetailed {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -549,7 +549,7 @@ class Invoice {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -682,7 +682,7 @@ class PaymentReminder {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -860,7 +860,7 @@ class OnlinePayment {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -937,7 +937,7 @@ class ServiceContract {
      */
     public $id;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
@@ -1168,7 +1168,7 @@ class DebitMandate {
      */
     public $id;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
@@ -1865,7 +1865,7 @@ class OfferUpdateRequest {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -1880,7 +1880,7 @@ class InvoiceCreateRequest {
      */
     public $positions;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -2056,7 +2056,7 @@ class InvoiceUpdateRequest {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -2083,7 +2083,7 @@ class OfferCreateRequest {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -2191,7 +2191,7 @@ class PaymentReminderCreateRequest {
      */
     public $state;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
 }
@@ -2315,7 +2315,7 @@ class ServiceContractCreateRequest {
      */
     public $positions;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
@@ -2374,7 +2374,7 @@ class DebitMandateCreateRequest {
      */
     public $depositor;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
