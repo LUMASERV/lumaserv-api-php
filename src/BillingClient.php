@@ -1097,7 +1097,7 @@ class BillingPosition {
      */
     public $id;
     /**
-     * @var int
+     * @var string
      */
     public $customer_id;
     /**
