@@ -471,7 +471,7 @@ class InvoiceDetailed {
      */
     public $due_at;
     /**
-     * @var InvoicePosition[]
+     * @var Position[]
      */
     public $positions;
     /**
@@ -593,6 +593,37 @@ class Customer {
     public $next_billing_date;
 }
 
+class CreateRequestPosition {
+    /**
+     * @var float
+     */
+    public $amount;
+    /**
+     * @var string
+     */
+    public $unit;
+    /**
+     * @var float
+     */
+    public $price;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $description;
+    /**
+     * @var string
+     */
+    public $group_key;
+    /**
+     * @var float
+     */
+    public $vat_rate;
+}
+
 abstract class ServiceContractInterval {
     const WEEKLY = "WEEKLY";
     const MONTHLY = "MONTHLY";
@@ -685,17 +716,6 @@ class PaymentReminder {
      * @var string
      */
     public $customer_id;
-}
-
-class FileDownload {
-    /**
-     * @var string
-     */
-    public $file_id;
-    /**
-     * @var string
-     */
-    public $url;
 }
 
 class InvoiceCreateRequestPosition {
@@ -995,13 +1015,6 @@ abstract class PaymentReminderStage {
     const STAGE3 = "STAGE3";
 }
 
-abstract class CustomerTransactionType {
-    const INVOICE = "INVOICE";
-    const REMINDER_FEE = "REMINDER_FEE";
-    const ONLINE_PAYMENT = "ONLINE_PAYMENT";
-    const BANK = "BANK";
-}
-
 class OfferPosition {
     /**
      * @var float
@@ -1201,29 +1214,6 @@ abstract class InvoiceState {
     const OPEN = "OPEN";
     const DRAFT = "DRAFT";
     const FINAL = "FINAL";
-}
-
-class File {
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $id;
-    /**
-     * @var string
-     */
-    public $state;
-    /**
-     * @var string
-     */
-    public $type;
-    /**
-     * @var string
-     */
-    public $object_id;
 }
 
 abstract class OfferState {
@@ -1958,10 +1948,6 @@ class CustomerCreateRequest {
      */
     public $country_code;
     /**
-     * @var InvoiceShippingType
-     */
-    public $invoice_shipping_type;
-    /**
      * @var float
      */
     public $balance;
@@ -2238,7 +2224,7 @@ class ServiceContractCreateRequest {
      */
     public $runtime;
     /**
-     * @var ServiceContractCreateRequestPosition[]
+     * @var CreateRequestPosition[]
      */
     public $positions;
     /**

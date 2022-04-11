@@ -2842,7 +2842,7 @@ class DomainListResponse {
 
 class ServerPriceRangeSingleResponse {
     /**
-     * @var 
+     * @var ResponseMetadata
      */
     public $metadata;
     /**
