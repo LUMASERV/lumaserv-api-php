@@ -8,7 +8,7 @@ class CoreClient {
     private $baseUrl;
     private $mapper;
 
-    public function __construct ($apiKey, $baseUrl = "https://api.lumaserv.cloud") {
+    public function __construct ($apiKey, $baseUrl = "https://api.lumaserv.com") {
         $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
         $this->mapper = new JsonMapper();
@@ -46,6 +46,22 @@ class CoreClient {
     public function getSSHKeys($queryParams = []) {
         $json = $this->request("GET", "/ssh-keys", $queryParams);
         return $this->mapper->map($json, new SSHKeyListResponse());
+    }
+
+    /**
+     * @return ServerPriceRangeSingleResponse
+     */
+    public function createServerPriceRange($body, $queryParams = []) {
+        $json = $this->request("POST", "/server-price-ranges", $queryParams, $body);
+        return $this->mapper->map($json, new ServerPriceRangeSingleResponse());
+    }
+
+    /**
+     * @return ServerPriceRangeListResponse
+     */
+    public function getServerPriceRanges($queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges", $queryParams);
+        return $this->mapper->map($json, new ServerPriceRangeListResponse());
     }
 
     /**
@@ -134,6 +150,14 @@ class CoreClient {
     public function getServerStorageClass($id, $queryParams = []) {
         $json = $this->request("GET", "/server-storage-classes/$id", $queryParams);
         return $this->mapper->map($json, new ServerStorageClassSingleResponse());
+    }
+
+    /**
+     * @return ServerActionSingleResponse
+     */
+    public function restartServer($id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/restart", $queryParams);
+        return $this->mapper->map($json, new ServerActionSingleResponse());
     }
 
     /**
@@ -537,6 +561,14 @@ class CoreClient {
     }
 
     /**
+     * @return ServerPriceRangeSingleResponse
+     */
+    public function getServerPriceRange($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges/$id", $queryParams);
+        return $this->mapper->map($json, new ServerPriceRangeSingleResponse());
+    }
+
+    /**
      * @return SSLOrganisationSingleResponse
      */
     public function createSSLOrganisation($body, $queryParams = []) {
@@ -566,6 +598,30 @@ class CoreClient {
     public function getSSLTypes($queryParams = []) {
         $json = $this->request("GET", "/ssl/types", $queryParams);
         return $this->mapper->map($json, new SSLTypeListResponse());
+    }
+
+    /**
+     * @return ServerVariantPriceSingleResponse
+     */
+    public function getServerVariantPrice($id, $variant_id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges/$id/variant-prices/$variant_id", $queryParams);
+        return $this->mapper->map($json, new ServerVariantPriceSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerVariantPrice($id, $variant_id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-price-ranges/$id/variant-prices/$variant_id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return ServerVariantPriceSingleResponse
+     */
+    public function updateServerVariantPrice($body, $id, $variant_id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-price-ranges/$id/variant-prices/$variant_id", $queryParams, $body);
+        return $this->mapper->map($json, new ServerVariantPriceSingleResponse());
     }
 
     /**
@@ -713,6 +769,14 @@ class CoreClient {
     }
 
     /**
+     * @return ServerVolumeSingleResponse
+     */
+    public function updateServerVolume($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-volumes/$id", $queryParams, $body);
+        return $this->mapper->map($json, new ServerVolumeSingleResponse());
+    }
+
+    /**
      * @return ServerNetworkSingleResponse
      */
     public function createServerNetwork($body, $id, $queryParams = []) {
@@ -766,6 +830,22 @@ class CoreClient {
     public function deleteSSHKey($id, $queryParams = []) {
         $json = $this->request("DELETE", "/ssh-keys/$id", $queryParams);
         return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return ServerPriceRangeAssignmentSingleResponse
+     */
+    public function createServerPriceRangeAssignment($body, $queryParams = []) {
+        $json = $this->request("POST", "/server-price-range-assignments", $queryParams, $body);
+        return $this->mapper->map($json, new ServerPriceRangeAssignmentSingleResponse());
+    }
+
+    /**
+     * @return ServerPriceRangeAssignmentListResponse
+     */
+    public function getServerPriceRangeAssignments($queryParams = []) {
+        $json = $this->request("GET", "/server-price-range-assignments", $queryParams);
+        return $this->mapper->map($json, new ServerPriceRangeAssignmentListResponse());
     }
 
     /**
@@ -1105,6 +1185,30 @@ class CoreClient {
     }
 
     /**
+     * @return ServerPriceRangeAssignmentSingleResponse
+     */
+    public function getServerPriceRangeAssignment($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-range-assignments/$id", $queryParams);
+        return $this->mapper->map($json, new ServerPriceRangeAssignmentSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerPriceRangeAssignment($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-price-range-assignments/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return ServerPriceRangeAssignmentSingleResponse
+     */
+    public function updateServerPriceRangeAssignment($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-price-range-assignments/$id", $queryParams, $body);
+        return $this->mapper->map($json, new ServerPriceRangeAssignmentSingleResponse());
+    }
+
+    /**
      * @return ServerVNCResponse
      */
     public function getServerVNC($id, $queryParams = []) {
@@ -1166,6 +1270,22 @@ class CoreClient {
     public function detachServerVolume($id, $queryParams = []) {
         $json = $this->request("POST", "/server-volumes/$id/detach", $queryParams);
         return $this->mapper->map($json, new ServerVolumeSingleResponse());
+    }
+
+    /**
+     * @return ServerVariantPriceSingleResponse
+     */
+    public function createServerVariantPrice($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/server-price-ranges/$id/variant-prices", $queryParams, $body);
+        return $this->mapper->map($json, new ServerVariantPriceSingleResponse());
+    }
+
+    /**
+     * @return ServerVariantPriceListResponse
+     */
+    public function getServerVariantPrices($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges/$id/variant-prices", $queryParams);
+        return $this->mapper->map($json, new ServerVariantPriceListResponse());
     }
 
 
@@ -1242,7 +1362,7 @@ class Server {
      */
     public $id;
     /**
-     * @var string
+     * @var ServerState
      */
     public $state;
     /**
@@ -1664,6 +1784,25 @@ class DNSRecord {
     public $ttl;
 }
 
+class ServerPriceRangeAssignment {
+    /**
+     * @var string
+     */
+    public $user_id;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $range_id;
+}
+
 class DNSZone {
     /**
      * @var string
@@ -1824,11 +1963,31 @@ class Domain {
     /**
      * @var string
      */
-    public $project_id;
+    public $registered_at;
     /**
      * @var string
      */
     public $admin_handle_code;
+    /**
+     * @var string
+     */
+    public $tech_handle_code;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var object
+     */
+    public $labels;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $suspended_until;
     /**
      * @var string
      */
@@ -1840,19 +1999,19 @@ class Domain {
     /**
      * @var string
      */
-    public $tech_handle_code;
-    /**
-     * @var string
-     */
-    public $created_at;
+    public $expire_at;
     /**
      * @var string
      */
     public $zone_handle_code;
     /**
-     * @var object
+     * @var DomainStatus
      */
-    public $labels;
+    public $status;
+    /**
+     * @var string
+     */
+    public $suspended_at;
 }
 
 class Subnet {
@@ -1890,10 +2049,6 @@ class ServerFirewallRule {
     /**
      * @var string[]
      */
-    public $destination_ports;
-    /**
-     * @var string[]
-     */
     public $destination_addresses;
     /**
      * @var bool
@@ -1912,13 +2067,13 @@ class ServerFirewallRule {
      */
     public $id;
     /**
-     * @var string[]
-     */
-    public $source_ports;
-    /**
      * @var ServerFirewallRuleType
      */
     public $type;
+    /**
+     * @var string[]
+     */
+    public $ports;
 }
 
 class ServerStorageClass {
@@ -2299,6 +2454,13 @@ class ServerVNC {
     public $host;
 }
 
+abstract class ServerState {
+    const INSTALLATION = "INSTALLATION";
+    const RESTORE = "RESTORE";
+    const ONLINE = "ONLINE";
+    const OFFLINE = "OFFLINE";
+}
+
 class ServerNetwork {
     /**
      * @var bool
@@ -2351,6 +2513,21 @@ class ServerStorage {
      * @var string
      */
     public $id;
+}
+
+class ServerVariantPrice {
+    /**
+     * @var string
+     */
+    public $variant_id;
+    /**
+     * @var float
+     */
+    public $price;
+    /**
+     * @var float
+     */
+    public $offline_price;
 }
 
 abstract class ScheduledServerActionInterval {
@@ -2478,6 +2655,17 @@ class ServerCreateRequestNetwork {
     public $network_id;
 }
 
+class ServerPriceRange {
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $title;
+}
+
 class ServerVariant {
     /**
      * @var int
@@ -2507,6 +2695,10 @@ class ServerVariant {
 
 class ServerAction {
     /**
+     * @var float
+     */
+    public $progress;
+    /**
      * @var string
      */
     public $started_at;
@@ -2530,6 +2722,15 @@ class ServerAction {
      * @var string
      */
     public $ended_at;
+}
+
+abstract class DomainStatus {
+    const PENDING = "PENDING";
+    const OK = "OK";
+    const FAILED = "FAILED";
+    const RESTRICTED = "RESTRICTED";
+    const SUSPENDED = "SUSPENDED";
+    const UNKNOWN = "UNKNOWN";
 }
 
 class S3AccessGrantListResponse {
@@ -2627,6 +2828,25 @@ class DomainListResponse {
     public $pagination;
     /**
      * @var Domain[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerPriceRangeSingleResponse {
+    /**
+     * @var 
+     */
+    public $metadata;
+    /**
+     * @var ServerPriceRange
      */
     public $data;
     /**
@@ -3287,6 +3507,29 @@ class SubnetSingleResponse {
     public $pagination;
     /**
      * @var Subnet
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerPriceRangeAssignmentListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerPriceRangeAssignment[]
      */
     public $data;
     /**
@@ -4036,6 +4279,29 @@ class AvailabilityZoneListResponse {
     public $messages;
 }
 
+class ServerVariantPriceListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerVariantPrice[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class ServerVolumeListResponse {
     /**
      * @var ResponseMetadata
@@ -4047,6 +4313,48 @@ class ServerVolumeListResponse {
     public $pagination;
     /**
      * @var ServerVolume[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerVariantPriceSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerVariantPrice
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerPriceRangeListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
+     * @var ServerPriceRange[]
      */
     public $data;
     /**
@@ -4104,6 +4412,25 @@ class ServerFirewallMemberSingleResponse {
     public $metadata;
     /**
      * @var ServerFirewallMember
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class ServerPriceRangeAssignmentSingleResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var ServerPriceRangeAssignment
      */
     public $data;
     /**
@@ -4272,11 +4599,22 @@ class DomainHandleCreateRequest {
     public $privacy_protection;
 }
 
+class ServerVolumeUpdateRequest {
+    /**
+     * @var object
+     */
+    public $labels;
+}
+
 class ServerCreateRequest {
     /**
      * @var string
      */
     public $zone_id;
+    /**
+     * @var string
+     */
+    public $backup_id;
     /**
      * @var string
      */
@@ -4446,6 +4784,21 @@ class NetworkCreateRequest {
     public $type;
 }
 
+class ServerVariantPriceCreateRequest {
+    /**
+     * @var string
+     */
+    public $variant_id;
+    /**
+     * @var float
+     */
+    public $price;
+    /**
+     * @var float
+     */
+    public $offline_price;
+}
+
 class ServerVariantCreateRequest {
     /**
      * @var string[]
@@ -4571,23 +4924,15 @@ class SSLCertificateCreateRequest {
     public $labels;
 }
 
-class ServerFIrewallMemberCreateRequest {
+class ServerVariantPriceUpdateRequest {
     /**
-     * @var string
+     * @var float
      */
-    public $label_value;
+    public $price;
     /**
-     * @var ServerFirewallMemberType
+     * @var float
      */
-    public $type;
-    /**
-     * @var string
-     */
-    public $server_id;
-    /**
-     * @var string
-     */
-    public $label_name;
+    public $offline_price;
 }
 
 class ScheduledServerActionCreateRequest {
@@ -4599,6 +4944,10 @@ class ScheduledServerActionCreateRequest {
      * @var ScheduledServerActionInterval
      */
     public $interval;
+    /**
+     * @var bool
+     */
+    public $force;
     /**
      * @var string
      */
@@ -4621,23 +4970,19 @@ class ServerFirewallRuleCreateRequest {
     /**
      * @var string[]
      */
-    public $destination_ports;
-    /**
-     * @var string[]
-     */
     public $destination_addresses;
     /**
      * @var string
      */
     public $description;
     /**
-     * @var string[]
-     */
-    public $source_ports;
-    /**
      * @var ServerFirewallRuleType
      */
     public $type;
+    /**
+     * @var string[]
+     */
+    public $ports;
 }
 
 class SSHKeyCreateRequest {
@@ -4657,6 +5002,25 @@ class SSHKeyCreateRequest {
      * @var object
      */
     public $labels;
+}
+
+class ServerFirewallMemberCreateRequest {
+    /**
+     * @var string
+     */
+    public $label_value;
+    /**
+     * @var ServerFirewallMemberType
+     */
+    public $type;
+    /**
+     * @var string
+     */
+    public $server_id;
+    /**
+     * @var string
+     */
+    public $label_name;
 }
 
 class ServerStorageCreateRequest {
@@ -4687,6 +5051,21 @@ class AvailabilityZoneCreateRequest {
      * @var object
      */
     public $config;
+}
+
+class ServerPriceRangeAssignmentCreateRequest {
+    /**
+     * @var string
+     */
+    public $user_id;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $range_id;
 }
 
 class ServerNetworkCreateRequest {
@@ -4739,6 +5118,20 @@ class SubnetAddressCreateRequest {
      * @var string
      */
     public $address;
+}
+
+class ServerPriceRangeCreateRequest {
+    /**
+     * @var string
+     */
+    public $title;
+}
+
+class ServerPriceRangeAssignmentUpdateRequest {
+    /**
+     * @var string
+     */
+    public $range_id;
 }
 
 class SSLOrganisationCreateRequest {

@@ -81,22 +81,6 @@ class BillingClient {
     }
 
     /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function createServiceContractPosition($body, $queryParams = []) {
-        $json = $this->request("POST", "/service-contract-positions", $queryParams, $body);
-        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionListResponse
-     */
-    public function getServiceContractPositions($queryParams = []) {
-        $json = $this->request("GET", "/service-contract-positions", $queryParams);
-        return $this->mapper->map($json, new ServiceContractPositionListResponse());
-    }
-
-    /**
      * @return BillingPositionSingleResponse
      */
     public function createBillingPosition($body, $queryParams = []) {
@@ -161,6 +145,30 @@ class BillingClient {
     }
 
     /**
+     * @return ServiceContractPositionSingleResponse
+     */
+    public function getServiceContractPosition($contract_id, $id, $queryParams = []) {
+        $json = $this->request("GET", "/service-contracts/$contract_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServiceContractPosition($contract_id, $id, $queryParams = []) {
+        $json = $this->request("DELETE", "/service-contracts/$contract_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return ServiceContractPositionSingleResponse
+     */
+    public function updateServiceContractPosition($body, $contract_id, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/service-contracts/$contract_id/positions/$id", $queryParams, $body);
+        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
+    }
+
+    /**
      * @return InvoiceSingleResponse
      */
     public function createInvoice($body, $queryParams = []) {
@@ -174,6 +182,22 @@ class BillingClient {
     public function getInvoices($queryParams = []) {
         $json = $this->request("GET", "/invoices", $queryParams);
         return $this->mapper->map($json, new InvoiceListResponse());
+    }
+
+    /**
+     * @return ServiceContractPositionSingleResponse
+     */
+    public function createServiceContractPosition($body, $contract_id, $queryParams = []) {
+        $json = $this->request("POST", "/service-contracts/$contract_id/positions", $queryParams, $body);
+        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
+    }
+
+    /**
+     * @return ServiceContractPositionListResponse
+     */
+    public function getServiceContractPositions($contract_id, $queryParams = []) {
+        $json = $this->request("GET", "/service-contracts/$contract_id/positions", $queryParams);
+        return $this->mapper->map($json, new ServiceContractPositionListResponse());
     }
 
     /**
@@ -198,30 +222,6 @@ class BillingClient {
     public function updateOfferPosition($body, $id, $queryParams = []) {
         $json = $this->request("PUT", "/offer-positions/$id", $queryParams, $body);
         return $this->mapper->map($json, new OfferPositionSingleResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function getServiceContractPosition($id, $queryParams = []) {
-        $json = $this->request("GET", "/service-contract-positions/$id", $queryParams);
-        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
-    }
-
-    /**
-     * @return EmptyResponse
-     */
-    public function deleteServiceContractPosition($id, $queryParams = []) {
-        $json = $this->request("DELETE", "/service-contract-positions/$id", $queryParams);
-        return $this->mapper->map($json, new EmptyResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function updateServiceContractPosition($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/service-contract-positions/$id", $queryParams, $body);
-        return $this->mapper->map($json, new ServiceContractPositionSingleResponse());
     }
 
     /**
@@ -865,29 +865,6 @@ class OnlinePayment {
     public $customer_id;
 }
 
-class ServiceContractCreateRequestPosition {
-    /**
-     * @var float
-     */
-    public $amount;
-    /**
-     * @var float
-     */
-    public $price;
-    /**
-     * @var string
-     */
-    public $description;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var float
-     */
-    public $vat_rate;
-}
-
 class ServiceContractPosition {
     /**
      * @var float
@@ -917,6 +894,49 @@ class ServiceContractPosition {
      * @var float
      */
     public $vat_rate;
+}
+
+class Position {
+    /**
+     * @var float
+     */
+    public $amount;
+    /**
+     * @var string
+     */
+    public $unit;
+    /**
+     * @var string
+     */
+    public $updated_at;
+    /**
+     * @var float
+     */
+    public $price;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $description;
+    /**
+     * @var string
+     */
+    public $created_at;
+    /**
+     * @var float
+     */
+    public $position;
+    /**
+     * @var float
+     */
+    public $vat_rate;
+    /**
+     * @var string
+     */
+    public $group_key;
 }
 
 class ServiceContract {
@@ -1175,49 +1195,6 @@ class DebitMandate {
      * @var string
      */
     public $postal_code;
-}
-
-class InvoicePosition {
-    /**
-     * @var float
-     */
-    public $amount;
-    /**
-     * @var string
-     */
-    public $unit;
-    /**
-     * @var string
-     */
-    public $updated_at;
-    /**
-     * @var float
-     */
-    public $price;
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $description;
-    /**
-     * @var string
-     */
-    public $created_at;
-    /**
-     * @var float
-     */
-    public $position;
-    /**
-     * @var float
-     */
-    public $vat_rate;
-    /**
-     * @var string
-     */
-    public $group_key;
 }
 
 abstract class InvoiceState {
@@ -1533,7 +1510,7 @@ class InvoicePositionListResponse {
      */
     public $pagination;
     /**
-     * @var InvoicePosition[]
+     * @var Position[]
      */
     public $data;
     /**
@@ -1617,7 +1594,7 @@ class InvoicePositionSingleResponse {
      */
     public $metadata;
     /**
-     * @var InvoicePosition
+     * @var Position
      */
     public $data;
     /**
@@ -1885,6 +1862,37 @@ class InvoiceCreateRequest {
     public $customer_id;
 }
 
+class PositionCreateRequest {
+    /**
+     * @var string
+     */
+    public $amount;
+    /**
+     * @var string
+     */
+    public $unit;
+    /**
+     * @var float
+     */
+    public $price;
+    /**
+     * @var string
+     */
+    public $name;
+    /**
+     * @var string
+     */
+    public $description;
+    /**
+     * @var float
+     */
+    public $vat_rate;
+    /**
+     * @var string
+     */
+    public $group_key;
+}
+
 class OfferPositionUpdateRequest {
     /**
      * @var float
@@ -2007,7 +2015,7 @@ class CustomerCreateRequest {
     public $email;
 }
 
-class InvoicePositionUpdateRequest {
+class PositionUpdateRequest {
     /**
      * @var float
      */
@@ -2107,29 +2115,6 @@ class PaymentReminderUpdateRequest {
     public $state;
 }
 
-class ServiceContractPositionUpdateRequest {
-    /**
-     * @var float
-     */
-    public $amount;
-    /**
-     * @var float
-     */
-    public $price;
-    /**
-     * @var string
-     */
-    public $description;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var float
-     */
-    public $vat_rate;
-}
-
 class BillingPositionUpdateRequest {
     /**
      * @var string
@@ -2196,33 +2181,6 @@ class PaymentReminderCreateRequest {
     public $customer_id;
 }
 
-class ServiceContractPositionCreateRequest {
-    /**
-     * @var float
-     */
-    public $amount;
-    /**
-     * @var float
-     */
-    public $price;
-    /**
-     * @var string
-     */
-    public $service_contract_id;
-    /**
-     * @var string
-     */
-    public $description;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var float
-     */
-    public $vat_rate;
-}
-
 class BillingPositionCreateRequest {
     /**
      * @var string
@@ -2256,37 +2214,6 @@ class BillingPositionCreateRequest {
      * @var string
      */
     public $available_at;
-    /**
-     * @var float
-     */
-    public $vat_rate;
-    /**
-     * @var string
-     */
-    public $group_key;
-}
-
-class InvoicePositionCreateRequest {
-    /**
-     * @var string
-     */
-    public $amount;
-    /**
-     * @var string
-     */
-    public $unit;
-    /**
-     * @var float
-     */
-    public $price;
-    /**
-     * @var string
-     */
-    public $name;
-    /**
-     * @var string
-     */
-    public $description;
     /**
      * @var float
      */
@@ -2396,6 +2323,10 @@ class ServiceContractUpdateRequest {
      * @var ServiceContractInterval
      */
     public $runtime;
+    /**
+     * @var string
+     */
+    public $customer_id;
     /**
      * @var string
      */

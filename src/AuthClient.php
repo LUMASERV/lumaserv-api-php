@@ -8,7 +8,7 @@ class AuthClient {
     private $baseUrl;
     private $mapper;
 
-    public function __construct ($apiKey, $baseUrl = "https://auth.lumaserv.cloud") {
+    public function __construct ($apiKey, $baseUrl = "https://auth.lumaserv.com") {
         $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
         $this->mapper = new JsonMapper();
@@ -129,11 +129,19 @@ class AuthClient {
     }
 
     /**
-     * @return AuditLogResponse
+     * @return EmptyResponse
      */
-    public function searchAuditLog($body, $queryParams = []) {
+    public function insertAuditLogEntry($body, $queryParams = []) {
         $json = $this->request("POST", "/audit-log", $queryParams, $body);
-        return $this->mapper->map($json, new AuditLogResponse());
+        return $this->mapper->map($json, new EmptyResponse());
+    }
+
+    /**
+     * @return AuditLogEntryListResponse
+     */
+    public function searchAuditLog($queryParams = []) {
+        $json = $this->request("GET", "/audit-log", $queryParams);
+        return $this->mapper->map($json, new AuditLogEntryListResponse());
     }
 
     /**
@@ -190,6 +198,14 @@ class AuthClient {
     public function getProjectMembers($id, $queryParams = []) {
         $json = $this->request("GET", "/projects/$id/members", $queryParams);
         return $this->mapper->map($json, new ProjectMemberListResponse());
+    }
+
+    /**
+     * @return TransactionLogResponse
+     */
+    public function searchTransactionLog($body, $queryParams = []) {
+        $json = $this->request("POST", "/transaction-log", $queryParams, $body);
+        return $this->mapper->map($json, new TransactionLogResponse());
     }
 
     /**
@@ -335,6 +351,49 @@ class TokenValidationInfo {
      * @var Token
      */
     public $token;
+}
+
+class AuditLogEntry {
+    /**
+     * @var string
+     */
+    public $date;
+    /**
+     * @var string
+     */
+    public $token_id;
+    /**
+     * @var string
+     */
+    public $user_id;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $object_type;
+    /**
+     * @var object
+     */
+    public $context;
+    /**
+     * @var string
+     */
+    public $action;
+    /**
+     * @var string
+     */
+    public $id;
+    /**
+     * @var string
+     */
+    public $ip_address;
+    /**
+     * @var string
+     */
+    public $object_id;
 }
 
 class ResponsePagination {
@@ -542,25 +601,6 @@ class TokenSingleResponse {
     public $messages;
 }
 
-class AuditLogResponse {
-    /**
-     * @var ResponseMetadata
-     */
-    public $metadata;
-    /**
-     * @var object[]
-     */
-    public $data;
-    /**
-     * @var bool
-     */
-    public $success;
-    /**
-     * @var ResponseMessages
-     */
-    public $messages;
-}
-
 class CountrySingleResponse {
     /**
      * @var ResponseMetadata
@@ -603,6 +643,25 @@ class ProjectMemberListResponse {
     public $messages;
 }
 
+class TransactionLogResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var object[]
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
 class CountryListResponse {
     /**
      * @var ResponseMetadata
@@ -633,6 +692,25 @@ class UserSingleResponse {
     public $metadata;
     /**
      * @var User
+     */
+    public $data;
+    /**
+     * @var bool
+     */
+    public $success;
+    /**
+     * @var ResponseMessages
+     */
+    public $messages;
+}
+
+class AuditLogEntryListResponse {
+    /**
+     * @var ResponseMetadata
+     */
+    public $metadata;
+    /**
+     * @var AuditLogEntry[]
      */
     public $data;
     /**
@@ -718,6 +796,21 @@ class ExecutePasswordResetRequest {
      * @var string
      */
     public $token;
+}
+
+class TransactionLogRequest {
+    /**
+     * @var object
+     */
+    public $query;
+    /**
+     * @var int
+     */
+    public $limit;
+    /**
+     * @var object
+     */
+    public $sort;
 }
 
 class TokenCreateRequest {
@@ -832,16 +925,32 @@ class UserCreateRequest {
 
 class AuditLogRequest {
     /**
+     * @var string
+     */
+    public $token_id;
+    /**
+     * @var string
+     */
+    public $project_id;
+    /**
+     * @var string
+     */
+    public $object_type;
+    /**
      * @var object
      */
-    public $query;
+    public $context;
     /**
-     * @var int
+     * @var string
      */
-    public $limit;
+    public $action;
     /**
-     * @var object
+     * @var string
      */
-    public $sort;
+    public $ip_address;
+    /**
+     * @var string
+     */
+    public $object_id;
 }
 
