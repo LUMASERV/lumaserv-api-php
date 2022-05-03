@@ -19,6 +19,10 @@ class BillingPositionCreateRequest {
      */
     public $price;
     /**
+     * @var bool
+     */
+    public $draft;
+    /**
      * @var string
      */
     public $description;

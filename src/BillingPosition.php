@@ -15,6 +15,10 @@ class BillingPosition {
      */
     public $price;
     /**
+     * @var bool
+     */
+    public $draft;
+    /**
      * @var string
      */
     public $description;
