@@ -28,7 +28,10 @@ class BillingClient {
         if ($body != NULL)
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($body));
         $response = curl_exec($curl);
+        $status = curl_getInfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
+        if($status < 200 || ($status >= 300 && $status < 400))
+            throw new Exception("Status code is {$status}!");
         return json_decode($response);
     }
 
