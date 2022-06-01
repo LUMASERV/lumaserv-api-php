@@ -7,6 +7,10 @@ class ScheduledServerActionCreateRequest {
      */
     public $backup_id;
     /**
+     * @var int
+     */
+    public $backup_retention;
+    /**
      * @var ScheduledServerActionInterval
      */
     public $interval;

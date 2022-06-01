@@ -7,6 +7,10 @@ class ScheduledServerAction {
      */
     public $backup_id;
     /**
+     * @var int
+     */
+    public $backup_retention;
+    /**
      * @var string
      */
     public $created_at;

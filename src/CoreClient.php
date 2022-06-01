@@ -988,6 +988,14 @@ class CoreClient {
     }
 
     /**
+     * @return ServerActionSingleResponse
+     */
+    public function cancelServerAction($id, $action_id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/actions/$action_id/cancel", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerActionSingleResponse());
+    }
+
+    /**
      * @return DomainHandleSingleResponse
      */
     public function createDomainHandle($body, $queryParams = []) {
@@ -1052,6 +1060,14 @@ class CoreClient {
     }
 
     /**
+     * @return ServerBackupSingleResponse
+     */
+    public function updateServerBackup($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-backups/$id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerBackupSingleResponse());
+    }
+
+    /**
      * @return DomainPriceListResponse
      */
     public function getDomainPricingList($queryParams = []) {
@@ -1065,14 +1081,6 @@ class CoreClient {
     public function getSSLCertificate($id, $queryParams = []) {
         $json = $this->request("GET", "/ssl/certificates/$id", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\SSLCertificateSingleResponse());
-    }
-
-    /**
-     * @return AddressSingleResponse
-     */
-    public function createSubnetAddress($body, $id, $queryParams = []) {
-        $json = $this->request("POST", "/subnets/$id/addresses", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\AddressSingleResponse());
     }
 
     /**

@@ -9,6 +9,10 @@ class NetworkCreateRequest {
     /**
      * @var string
      */
+    public $subnet;
+    /**
+     * @var string
+     */
     public $project_id;
     /**
      * @var int

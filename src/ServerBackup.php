@@ -19,6 +19,10 @@ class ServerBackup {
      */
     public $scheduled;
     /**
+     * @var bool
+     */
+    public $keep;
+    /**
      * @var string
      */
     public $created_at;

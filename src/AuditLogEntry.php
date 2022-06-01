@@ -19,7 +19,7 @@ class AuditLogEntry {
      */
     public $project_id;
     /**
-     * @var string
+     * @var ObjectType
      */
     public $object_type;
     /**

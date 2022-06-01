@@ -11,6 +11,10 @@ class ServerCreateRequest {
      */
     public $backup_id;
     /**
+     * @var bool
+     */
+    public $no_public_network;
+    /**
      * @var string
      */
     public $variant_id;

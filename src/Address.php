@@ -7,6 +7,10 @@ class Address {
      */
     public $address;
     /**
+     * @var AddressAssignments[]
+     */
+    public $assignments;
+    /**
      * @var string
      */
     public $project_id;

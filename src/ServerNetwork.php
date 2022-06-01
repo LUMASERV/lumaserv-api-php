@@ -11,9 +11,9 @@ class ServerNetwork {
      */
     public $network_id;
     /**
-     * @var string
+     * @var Address[]
      */
-    public $address_v6_id;
+    public $addresses;
     /**
      * @var string
      */
@@ -26,10 +26,6 @@ class ServerNetwork {
      * @var string
      */
     public $id;
-    /**
-     * @var string
-     */
-    public $address_v4_id;
     /**
      * @var string
      */

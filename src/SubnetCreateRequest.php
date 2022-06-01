@@ -3,6 +3,10 @@ namespace LUMASERV;
 
 class SubnetCreateRequest {
     /**
+     * @var bool
+     */
+    public $shared;
+    /**
      * @var string
      */
     public $network_id;
@@ -11,10 +15,6 @@ class SubnetCreateRequest {
      */
     public $address;
     /**
-     * @var bool
-     */
-    public $public;
-    /**
      * @var string
      */
     public $project_id;
@@ -22,5 +22,9 @@ class SubnetCreateRequest {
      * @var int
      */
     public $prefix;
+    /**
+     * @var string
+     */
+    public $range;
 }
 
