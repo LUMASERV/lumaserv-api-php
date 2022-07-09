@@ -8,7 +8,7 @@ class BillingClient {
     private $baseUrl;
     private $mapper;
 
-    public function __construct ($apiKey, $baseUrl = "https://billing.lumaserv.com") {
+    public function __construct ($apiKey, $baseUrl = "https://api.lumaserv.com/billing") {
         $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
         $this->mapper = new JsonMapper();

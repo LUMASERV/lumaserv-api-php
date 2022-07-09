@@ -11,6 +11,10 @@ class BillingPosition {
      */
     public $amount;
     /**
+     * @var string
+     */
+    public $sync_key;
+    /**
      * @var float
      */
     public $price;

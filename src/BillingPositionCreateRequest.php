@@ -15,6 +15,10 @@ class BillingPositionCreateRequest {
      */
     public $unit;
     /**
+     * @var string
+     */
+    public $sync_key;
+    /**
      * @var float
      */
     public $price;
