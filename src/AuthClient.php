@@ -134,6 +134,14 @@ class AuthClient {
     /**
      * @return EmptyResponse
      */
+    public function rejectProjectInvite($id, $queryParams = []) {
+        $json = $this->request("POST", "/project-invites/$id/reject", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
     public function insertAuditLogEntry($body, $queryParams = []) {
         $json = $this->request("POST", "/audit-log", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
@@ -188,11 +196,35 @@ class AuthClient {
     }
 
     /**
+     * @return EmptyResponse
+     */
+    public function deleteProjectInvite($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/project-invites/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
      * @return TokenValidationResponse
      */
     public function validateToken($token, $queryParams = []) {
         $json = $this->request("GET", "/validate/$token", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\TokenValidationResponse());
+    }
+
+    /**
+     * @return ProjectInviteSingleResponse
+     */
+    public function createProjectInvite($body, $queryParams = []) {
+        $json = $this->request("POST", "/project-invites", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ProjectInviteSingleResponse());
+    }
+
+    /**
+     * @return ProjectInviteListResponse
+     */
+    public function getProjectInvites($queryParams = []) {
+        $json = $this->request("GET", "/project-invites", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ProjectInviteListResponse());
     }
 
     /**
@@ -225,6 +257,14 @@ class AuthClient {
     public function validateSelf($queryParams = []) {
         $json = $this->request("GET", "/validate/self", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\TokenValidationResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function acceptProjectInvite($id, $queryParams = []) {
+        $json = $this->request("POST", "/project-invites/$id/accept", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
     }
 
     /**

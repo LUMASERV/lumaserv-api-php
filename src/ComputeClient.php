@@ -148,6 +148,14 @@ class ComputeClient {
     }
 
     /**
+     * @return ServerActionListResponse
+     */
+    public function getServerActions($queryParams = []) {
+        $json = $this->request("GET", "/server-actions", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerActionListResponse());
+    }
+
+    /**
      * @return ServerStorageClassSingleResponse
      */
     public function getServerStorageClass($id, $queryParams = []) {
@@ -164,19 +172,27 @@ class ComputeClient {
     }
 
     /**
+     * @return ServerSingleResponse
+     */
+    public function mountServerMedia($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/servers/$id/mount", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerSingleResponse());
+    }
+
+    /**
+     * @return ServerSingleResponse
+     */
+    public function unmountServerMedia($id, $queryParams = []) {
+        $json = $this->request("DELETE", "/servers/$id/mount", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerSingleResponse());
+    }
+
+    /**
      * @return ScheduledServerActionSingleResponse
      */
     public function restoreServer($body, $id, $queryParams = []) {
         $json = $this->request("POST", "/servers/$id/restore", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ScheduledServerActionSingleResponse());
-    }
-
-    /**
-     * @return ServerActionSingleResponse
-     */
-    public function getServerAction($id, $action_id, $queryParams = []) {
-        $json = $this->request("GET", "/servers/$id/actions/$action_id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\ServerActionSingleResponse());
     }
 
     /**
@@ -225,6 +241,14 @@ class ComputeClient {
     public function deleteServerFirewallRule($id, $rule_id, $queryParams = []) {
         $json = $this->request("DELETE", "/server-firewalls/$id/rules/$rule_id", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
+     * @return ServerFirewallRuleSingleResponse
+     */
+    public function updateServerFirewallRule($body, $id, $rule_id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-firewalls/$id/rules/$rule_id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerFirewallRuleSingleResponse());
     }
 
     /**
@@ -396,6 +420,14 @@ class ComputeClient {
     }
 
     /**
+     * @return ScheduledServerActionSingleResponse
+     */
+    public function updateScheduledServerAction($body, $id, $action_id, $queryParams = []) {
+        $json = $this->request("PUT", "/servers/$id/scheduled-actions/$action_id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ScheduledServerActionSingleResponse());
+    }
+
+    /**
      * @return S3BucketSingleResponse
      */
     public function createS3Bucket($body, $queryParams = []) {
@@ -417,14 +449,6 @@ class ComputeClient {
     public function getPleskLicenseTypes($queryParams = []) {
         $json = $this->request("GET", "/licenses/plesk-types", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\PleskLicenseTypeListResponse());
-    }
-
-    /**
-     * @return ServerActionListResponse
-     */
-    public function getServerActions($id, $queryParams = []) {
-        $json = $this->request("GET", "/servers/$id/actions", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\ServerActionListResponse());
     }
 
     /**
@@ -457,6 +481,14 @@ class ComputeClient {
     public function getServerPriceRange($id, $queryParams = []) {
         $json = $this->request("GET", "/server-price-ranges/$id", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\ServerPriceRangeSingleResponse());
+    }
+
+    /**
+     * @return ServerActionSingleResponse
+     */
+    public function getServerAction($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-actions/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerActionSingleResponse());
     }
 
     /**
@@ -520,6 +552,14 @@ class ComputeClient {
      */
     public function getServerHost($id, $queryParams = []) {
         $json = $this->request("GET", "/server-hosts/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerHostSingleResponse());
+    }
+
+    /**
+     * @return ServerHostSingleResponse
+     */
+    public function updateServerHost($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-hosts/$id", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServerHostSingleResponse());
     }
 
@@ -780,14 +820,6 @@ class ComputeClient {
     }
 
     /**
-     * @return ServerActionSingleResponse
-     */
-    public function cancelServerAction($id, $action_id, $queryParams = []) {
-        $json = $this->request("POST", "/servers/$id/actions/$action_id/cancel", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\ServerActionSingleResponse());
-    }
-
-    /**
      * @return AddressSingleResponse
      */
     public function getAddress($id, $queryParams = []) {
@@ -924,10 +956,26 @@ class ComputeClient {
     }
 
     /**
+     * @return ServerActionSingleResponse
+     */
+    public function cancelServerAction($id, $queryParams = []) {
+        $json = $this->request("POST", "/server-actions/$id/cancel", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerActionSingleResponse());
+    }
+
+    /**
      * @return NetworkSingleResponse
      */
     public function getNetwork($id, $queryParams = []) {
         $json = $this->request("GET", "/networks/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\NetworkSingleResponse());
+    }
+
+    /**
+     * @return NetworkSingleResponse
+     */
+    public function updateNetwork($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/networks/$id", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\NetworkSingleResponse());
     }
 
@@ -937,6 +985,14 @@ class ComputeClient {
     public function getLabels($queryParams = []) {
         $json = $this->request("GET", "/labels", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\LabelListResponse());
+    }
+
+    /**
+     * @return ServerVolumeSingleResponse
+     */
+    public function resizeServerVolume($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/server-volumes/$id/resize", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumeSingleResponse());
     }
 
     /**

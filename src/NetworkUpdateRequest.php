@@ -1,7 +1,7 @@
 <?php
 namespace LUMASERV;
 
-class ServerVolumeUpdateRequest {
+class NetworkUpdateRequest {
     /**
      * @var string
      */

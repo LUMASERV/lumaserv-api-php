@@ -15,6 +15,10 @@ class ServerFirewallRuleCreateRequest {
      */
     public $description;
     /**
+     * @var bool
+     */
+    public $disabled;
+    /**
      * @var ServerFirewallRuleType
      */
     public $type;

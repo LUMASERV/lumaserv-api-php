@@ -1,11 +1,11 @@
 <?php
 namespace LUMASERV;
 
-class ServerBackupUpdateRequest {
+class ServerHostUpdateRequest {
     /**
      * @var bool
      */
-    public $keep;
+    public $active;
     /**
      * @var string
      */

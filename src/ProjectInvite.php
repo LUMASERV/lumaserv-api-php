@@ -1,19 +1,23 @@
 <?php
 namespace LUMASERV;
 
-class ServerHost {
+class ProjectInvite {
     /**
      * @var string
      */
-    public $zone_id;
+    public $valid_until;
+    /**
+     * @var string
+     */
+    public $project_id;
     /**
      * @var string
      */
     public $created_at;
     /**
-     * @var bool
+     * @var string
      */
-    public $active;
+    public $project_title;
     /**
      * @var string
      */
@@ -21,6 +25,6 @@ class ServerHost {
     /**
      * @var string
      */
-    public $title;
+    public $email;
 }
 

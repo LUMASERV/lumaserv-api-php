@@ -7,6 +7,10 @@ class ServerHostCreateRequest {
      */
     public $zone_id;
     /**
+     * @var bool
+     */
+    public $active;
+    /**
      * @var string
      */
     public $external_id;
