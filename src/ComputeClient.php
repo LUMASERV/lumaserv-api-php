@@ -356,14 +356,6 @@ class ComputeClient {
     }
 
     /**
-     * @return PleskLicenseTypeSingleResponse
-     */
-    public function getPleskLicenseType($id, $queryParams = []) {
-        $json = $this->request("GET", "/licenses/plesk-types/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseTypeSingleResponse());
-    }
-
-    /**
      * @return ServerStorageClassSingleResponse
      */
     public function createServerStorageClass($body, $queryParams = []) {
@@ -444,14 +436,6 @@ class ComputeClient {
     }
 
     /**
-     * @return PleskLicenseTypeListResponse
-     */
-    public function getPleskLicenseTypes($queryParams = []) {
-        $json = $this->request("GET", "/licenses/plesk-types", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseTypeListResponse());
-    }
-
-    /**
      * @return ServerStatusResponse
      */
     public function getServerStatus($id, $queryParams = []) {
@@ -513,22 +497,6 @@ class ComputeClient {
     public function updateServerVariantPrice($body, $id, $variant_id, $queryParams = []) {
         $json = $this->request("PUT", "/server-price-ranges/$id/variant-prices/$variant_id", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServerVariantPriceSingleResponse());
-    }
-
-    /**
-     * @return PleskLicenseSingleResponse
-     */
-    public function getPleskLicense($id, $queryParams = []) {
-        $json = $this->request("GET", "/licenses/plesk/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseSingleResponse());
-    }
-
-    /**
-     * @return PleskLicenseSingleResponse
-     */
-    public function updatePleskLicense($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/licenses/plesk/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseSingleResponse());
     }
 
     /**
@@ -769,22 +737,6 @@ class ComputeClient {
     public function attachServerVolume($body, $id, $queryParams = []) {
         $json = $this->request("POST", "/server-volumes/$id/attach", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServerVolumeSingleResponse());
-    }
-
-    /**
-     * @return PleskLicenseSingleResponse
-     */
-    public function createPleskLicense($body, $queryParams = []) {
-        $json = $this->request("POST", "/licenses/plesk", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseSingleResponse());
-    }
-
-    /**
-     * @return PleskLicenseListResponse
-     */
-    public function getPleskLicenses($queryParams = []) {
-        $json = $this->request("GET", "/licenses/plesk", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PleskLicenseListResponse());
     }
 
     /**
