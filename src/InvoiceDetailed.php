@@ -15,6 +15,14 @@ class InvoiceDetailed {
      */
     public $due_at;
     /**
+     * @var float
+     */
+    public $net_price;
+    /**
+     * @var float
+     */
+    public $gross_price;
+    /**
      * @var Position[]
      */
     public $positions;

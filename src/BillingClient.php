@@ -36,6 +36,38 @@ class BillingClient {
     }
 
     /**
+     * @return PaymentReminderSingleResponse
+     */
+    public function getPaymentReminder($id, $queryParams = []) {
+        $json = $this->request("GET", "/payment-reminders/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
+    }
+
+    /**
+     * @return PaymentReminderSingleResponse
+     */
+    public function updatePaymentReminder($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/payment-reminders/$id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
+    }
+
+    /**
+     * @return DebitMandateSingleResponse
+     */
+    public function createDebitMandate($body, $queryParams = []) {
+        $json = $this->request("POST", "/debit-mandates", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\DebitMandateSingleResponse());
+    }
+
+    /**
+     * @return DebitMandateListResponse
+     */
+    public function getDebitMandates($queryParams = []) {
+        $json = $this->request("GET", "/debit-mandates", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\DebitMandateListResponse());
+    }
+
+    /**
      * @return FileSingleResponse
      */
     public function getInvoiceFile($id, $queryParams = []) {
@@ -84,6 +116,30 @@ class BillingClient {
     }
 
     /**
+     * @return BankTransactionListResponse
+     */
+    public function getBankTransactions($queryParams = []) {
+        $json = $this->request("GET", "/bank-transactions", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\BankTransactionListResponse());
+    }
+
+    /**
+     * @return DebitMandateSingleResponse
+     */
+    public function getDebitMandate($id, $queryParams = []) {
+        $json = $this->request("GET", "/debit-mandates/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\DebitMandateSingleResponse());
+    }
+
+    /**
+     * @return BankTransactionSingleResponse
+     */
+    public function getBankTransaction($id, $queryParams = []) {
+        $json = $this->request("GET", "/bank-transactions/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\BankTransactionSingleResponse());
+    }
+
+    /**
      * @return BillingPositionSingleResponse
      */
     public function createBillingPosition($body, $queryParams = []) {
@@ -113,190 +169,6 @@ class BillingClient {
     public function getCustomers($queryParams = []) {
         $json = $this->request("GET", "/customers", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\CustomerListResponse());
-    }
-
-    /**
-     * @return DebitListResponse
-     */
-    public function getDebits($queryParams = []) {
-        $json = $this->request("GET", "/debits", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\DebitListResponse());
-    }
-
-    /**
-     * @return CustomerSingleResponse
-     */
-    public function getCustomer($id, $queryParams = []) {
-        $json = $this->request("GET", "/customers/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\CustomerSingleResponse());
-    }
-
-    /**
-     * @return CustomerSingleResponse
-     */
-    public function updateCustomer($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/customers/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\CustomerSingleResponse());
-    }
-
-    /**
-     * @return OnlinePaymentListResponse
-     */
-    public function getOnlinePayments($queryParams = []) {
-        $json = $this->request("GET", "/online-payments", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OnlinePaymentListResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function getServiceContractPosition($contract_id, $id, $queryParams = []) {
-        $json = $this->request("GET", "/service-contracts/$contract_id/positions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
-    }
-
-    /**
-     * @return EmptyResponse
-     */
-    public function deleteServiceContractPosition($contract_id, $id, $queryParams = []) {
-        $json = $this->request("DELETE", "/service-contracts/$contract_id/positions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function updateServiceContractPosition($body, $contract_id, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/service-contracts/$contract_id/positions/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
-    }
-
-    /**
-     * @return InvoiceSingleResponse
-     */
-    public function createInvoice($body, $queryParams = []) {
-        $json = $this->request("POST", "/invoices", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\InvoiceSingleResponse());
-    }
-
-    /**
-     * @return InvoiceListResponse
-     */
-    public function getInvoices($queryParams = []) {
-        $json = $this->request("GET", "/invoices", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\InvoiceListResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionSingleResponse
-     */
-    public function createServiceContractPosition($body, $contract_id, $queryParams = []) {
-        $json = $this->request("POST", "/service-contracts/$contract_id/positions", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
-    }
-
-    /**
-     * @return ServiceContractPositionListResponse
-     */
-    public function getServiceContractPositions($contract_id, $queryParams = []) {
-        $json = $this->request("GET", "/service-contracts/$contract_id/positions", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionListResponse());
-    }
-
-    /**
-     * @return OfferPositionSingleResponse
-     */
-    public function getOfferPosition($id, $queryParams = []) {
-        $json = $this->request("GET", "/offer-positions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OfferPositionSingleResponse());
-    }
-
-    /**
-     * @return EmptyResponse
-     */
-    public function deleteOfferPosition($id, $queryParams = []) {
-        $json = $this->request("DELETE", "/offer-positions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
-    }
-
-    /**
-     * @return OfferPositionSingleResponse
-     */
-    public function updateOfferPosition($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/offer-positions/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\OfferPositionSingleResponse());
-    }
-
-    /**
-     * @return PaymentReminderSingleResponse
-     */
-    public function getPaymentReminder($id, $queryParams = []) {
-        $json = $this->request("GET", "/payment-reminders/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
-    }
-
-    /**
-     * @return PaymentReminderSingleResponse
-     */
-    public function updatePaymentReminder($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/payment-reminders/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
-    }
-
-    /**
-     * @return DebitMandateSingleResponse
-     */
-    public function createDebitMandate($body, $queryParams = []) {
-        $json = $this->request("POST", "/debit-mandates", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\DebitMandateSingleResponse());
-    }
-
-    /**
-     * @return DebitMandateListResponse
-     */
-    public function getDebitMandates($queryParams = []) {
-        $json = $this->request("GET", "/debit-mandates", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\DebitMandateListResponse());
-    }
-
-    /**
-     * @return BankTransactionListResponse
-     */
-    public function getBankTransactions($queryParams = []) {
-        $json = $this->request("GET", "/bank-transactions", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\BankTransactionListResponse());
-    }
-
-    /**
-     * @return DebitMandateSingleResponse
-     */
-    public function getDebitMandate($id, $queryParams = []) {
-        $json = $this->request("GET", "/debit-mandates/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\DebitMandateSingleResponse());
-    }
-
-    /**
-     * @return BankTransactionSingleResponse
-     */
-    public function getBankTransaction($id, $queryParams = []) {
-        $json = $this->request("GET", "/bank-transactions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\BankTransactionSingleResponse());
-    }
-
-    /**
-     * @return OfferSingleResponse
-     */
-    public function getOffer($id, $queryParams = []) {
-        $json = $this->request("GET", "/offers/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OfferSingleResponse());
-    }
-
-    /**
-     * @return OfferSingleResponse
-     */
-    public function updateOffer($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/offers/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\OfferSingleResponse());
     }
 
     /**
@@ -340,6 +212,30 @@ class BillingClient {
     }
 
     /**
+     * @return DebitListResponse
+     */
+    public function getDebits($queryParams = []) {
+        $json = $this->request("GET", "/debits", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\DebitListResponse());
+    }
+
+    /**
+     * @return CustomerSingleResponse
+     */
+    public function getCustomer($id, $queryParams = []) {
+        $json = $this->request("GET", "/customers/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\CustomerSingleResponse());
+    }
+
+    /**
+     * @return CustomerSingleResponse
+     */
+    public function updateCustomer($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/customers/$id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\CustomerSingleResponse());
+    }
+
+    /**
      * @return InvoiceSingleResponse
      */
     public function getInvoice($id, $queryParams = []) {
@@ -364,11 +260,43 @@ class BillingClient {
     }
 
     /**
-     * @return OnlinePaymentSingleResponse
+     * @return ServiceContractPositionSingleResponse
      */
-    public function getOnlinePayment($id, $queryParams = []) {
-        $json = $this->request("GET", "/online-payments/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OnlinePaymentSingleResponse());
+    public function getServiceContractPosition($contract_id, $id, $queryParams = []) {
+        $json = $this->request("GET", "/service-contracts/$contract_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServiceContractPosition($contract_id, $id, $queryParams = []) {
+        $json = $this->request("DELETE", "/service-contracts/$contract_id/positions/$id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
+     * @return ServiceContractPositionSingleResponse
+     */
+    public function updateServiceContractPosition($body, $contract_id, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/service-contracts/$contract_id/positions/$id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
+    }
+
+    /**
+     * @return InvoiceSingleResponse
+     */
+    public function createInvoice($body, $queryParams = []) {
+        $json = $this->request("POST", "/invoices", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\InvoiceSingleResponse());
+    }
+
+    /**
+     * @return InvoiceListResponse
+     */
+    public function getInvoices($queryParams = []) {
+        $json = $this->request("GET", "/invoices", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\InvoiceListResponse());
     }
 
     /**
@@ -380,19 +308,19 @@ class BillingClient {
     }
 
     /**
-     * @return OfferSingleResponse
+     * @return ServiceContractPositionSingleResponse
      */
-    public function createOffer($body, $queryParams = []) {
-        $json = $this->request("POST", "/offers", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\OfferSingleResponse());
+    public function createServiceContractPosition($body, $contract_id, $queryParams = []) {
+        $json = $this->request("POST", "/service-contracts/$contract_id/positions", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionSingleResponse());
     }
 
     /**
-     * @return OfferListResponse
+     * @return ServiceContractPositionListResponse
      */
-    public function getOffers($queryParams = []) {
-        $json = $this->request("GET", "/offers", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OfferListResponse());
+    public function getServiceContractPositions($contract_id, $queryParams = []) {
+        $json = $this->request("GET", "/service-contracts/$contract_id/positions", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServiceContractPositionListResponse());
     }
 
     /**
@@ -417,22 +345,6 @@ class BillingClient {
     public function updateServiceContract($body, $id, $queryParams = []) {
         $json = $this->request("PUT", "/service-contracts/$id", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServiceContractSingleResponse());
-    }
-
-    /**
-     * @return OfferPositionSingleResponse
-     */
-    public function createOfferPosition($body, $queryParams = []) {
-        $json = $this->request("POST", "/offer-positions", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\OfferPositionSingleResponse());
-    }
-
-    /**
-     * @return OfferPositionListResponse
-     */
-    public function getOfferPositions($queryParams = []) {
-        $json = $this->request("GET", "/offer-positions", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\OfferPositionListResponse());
     }
 
     /**
