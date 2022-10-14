@@ -7,13 +7,17 @@ class SSLCertificateCreateRequest {
      */
     public $organisation_id;
     /**
-     * @var object
-     */
-    public $tech_contact;
-    /**
      * @var string
      */
     public $csr;
+    /**
+     * @var string
+     */
+    public $approverEmail;
+    /**
+     * @var string
+     */
+    public $validationMethod;
     /**
      * @var string
      */
@@ -23,17 +27,13 @@ class SSLCertificateCreateRequest {
      */
     public $type_id;
     /**
-     * @var object
+     * @var string
      */
     public $admin_contact;
     /**
-     * @var object
-     */
-    public $organisation;
-    /**
      * @var string
      */
-    public $approver_email;
+    public $organisation;
     /**
      * @var string
      */
@@ -42,10 +42,6 @@ class SSLCertificateCreateRequest {
      * @var string
      */
     public $tech_contact_id;
-    /**
-     * @var string
-     */
-    public $validation_method;
     /**
      * @var object
      */

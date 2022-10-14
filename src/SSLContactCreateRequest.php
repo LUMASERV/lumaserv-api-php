@@ -5,10 +5,6 @@ class SSLContactCreateRequest {
     /**
      * @var string
      */
-    public $additional_address;
-    /**
-     * @var string
-     */
     public $address;
     /**
      * @var string
@@ -30,6 +26,10 @@ class SSLContactCreateRequest {
      * @var object
      */
     public $labels;
+    /**
+     * @var string
+     */
+    public $additonalAddress;
     /**
      * @var string
      */

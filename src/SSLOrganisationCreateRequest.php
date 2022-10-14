@@ -19,7 +19,7 @@ class SSLOrganisationCreateRequest {
      */
     public $registration_number;
     /**
-     * @var object
+     * @var string
      */
     public $labels;
     /**

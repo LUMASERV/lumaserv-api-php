@@ -7,6 +7,10 @@ class AuditLogEntryListResponse {
      */
     public $metadata;
     /**
+     * @var ResponsePagination
+     */
+    public $pagination;
+    /**
      * @var AuditLogEntry[]
      */
     public $data;

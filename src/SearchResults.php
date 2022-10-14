@@ -3,12 +3,20 @@ namespace LUMASERV;
 
 class SearchResults {
     /**
-     * @var Domain[]
+     * @var SSLContact[]
      */
-    public $domains;
+    public $ssl_contacts;
     /**
-     * @var DomainHandle[]
+     * @var SSLOrganisation[]
      */
-    public $domain_handles;
+    public $ssl_organisations;
+    /**
+     * @var PleskLicense[]
+     */
+    public $plesk_licenses;
+    /**
+     * @var SSLCertificate[]
+     */
+    public $ssl_certificates;
 }
 

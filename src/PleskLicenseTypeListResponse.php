@@ -3,7 +3,7 @@ namespace LUMASERV;
 
 class PleskLicenseTypeListResponse {
     /**
-     * @var ResponseMetadata
+     * @var ResponseMessages
      */
     public $metadata;
     /**
