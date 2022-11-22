@@ -3,6 +3,10 @@ namespace LUMASERV;
 
 class ServiceContractCreateRequest {
     /**
+     * @var string
+     */
+    public $unit;
+    /**
      * @var int
      */
     public $cancellation_period;
@@ -13,11 +17,11 @@ class ServiceContractCreateRequest {
     /**
      * @var ServiceContractInterval
      */
-    public $runtime;
+    public $billing_interval;
     /**
-     * @var CreateRequestPosition[]
+     * @var float
      */
-    public $positions;
+    public $unit_amount;
     /**
      * @var string
      */
@@ -29,6 +33,14 @@ class ServiceContractCreateRequest {
     /**
      * @var ServiceContractInterval
      */
-    public $accounting_period;
+    public $renewal_interval;
+    /**
+     * @var float
+     */
+    public $unit_price;
+    /**
+     * @var float
+     */
+    public $vat_rate;
 }
 

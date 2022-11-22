@@ -36,22 +36,6 @@ class BillingClient {
     }
 
     /**
-     * @return PaymentReminderSingleResponse
-     */
-    public function getPaymentReminder($id, $queryParams = []) {
-        $json = $this->request("GET", "/payment-reminders/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
-    }
-
-    /**
-     * @return PaymentReminderSingleResponse
-     */
-    public function updatePaymentReminder($body, $id, $queryParams = []) {
-        $json = $this->request("PUT", "/payment-reminders/$id", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
-    }
-
-    /**
      * @return DebitMandateSingleResponse
      */
     public function createDebitMandate($body, $queryParams = []) {
@@ -116,27 +100,11 @@ class BillingClient {
     }
 
     /**
-     * @return BankTransactionListResponse
-     */
-    public function getBankTransactions($queryParams = []) {
-        $json = $this->request("GET", "/bank-transactions", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\BankTransactionListResponse());
-    }
-
-    /**
      * @return DebitMandateSingleResponse
      */
     public function getDebitMandate($id, $queryParams = []) {
         $json = $this->request("GET", "/debit-mandates/$id", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\DebitMandateSingleResponse());
-    }
-
-    /**
-     * @return BankTransactionSingleResponse
-     */
-    public function getBankTransaction($id, $queryParams = []) {
-        $json = $this->request("GET", "/bank-transactions/$id", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\BankTransactionSingleResponse());
     }
 
     /**
@@ -345,22 +313,6 @@ class BillingClient {
     public function updateServiceContract($body, $id, $queryParams = []) {
         $json = $this->request("PUT", "/service-contracts/$id", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServiceContractSingleResponse());
-    }
-
-    /**
-     * @return PaymentReminderSingleResponse
-     */
-    public function createPaymentReminder($body, $queryParams = []) {
-        $json = $this->request("POST", "/payment-reminders", $queryParams, $body);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderSingleResponse());
-    }
-
-    /**
-     * @return PaymentReminderListResponse
-     */
-    public function getPaymentReminders($queryParams = []) {
-        $json = $this->request("GET", "/payment-reminders", $queryParams);
-        return $this->mapper->map($json, new \LUMASERV\PaymentReminderListResponse());
     }
 
 

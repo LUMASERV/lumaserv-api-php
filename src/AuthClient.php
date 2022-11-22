@@ -134,6 +134,14 @@ class AuthClient {
     /**
      * @return EmptyResponse
      */
+    public function changeEmail($body, $queryParams = []) {
+        $json = $this->request("PUT", "/email-change", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
     public function rejectProjectInvite($id, $queryParams = []) {
         $json = $this->request("POST", "/project-invites/$id/reject", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
@@ -177,6 +185,14 @@ class AuthClient {
     public function getCountry($code, $queryParams = []) {
         $json = $this->request("GET", "/countries/$code", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\CountrySingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function changePassword($body, $queryParams = []) {
+        $json = $this->request("PUT", "/password-change", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
     }
 
     /**

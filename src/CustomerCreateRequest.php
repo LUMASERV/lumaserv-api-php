@@ -31,10 +31,6 @@ class CustomerCreateRequest {
      */
     public $country_code;
     /**
-     * @var float
-     */
-    public $balance;
-    /**
      * @var string
      */
     public $user_id;
