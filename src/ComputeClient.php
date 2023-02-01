@@ -652,6 +652,14 @@ class ComputeClient {
     }
 
     /**
+     * @return SSHKeySingleResponse
+     */
+    public function updateSSHKey($body, $id, $queryParams = []) {
+        $json = $this->request("PUT", "/ssh-keys/$id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\SSHKeySingleResponse());
+    }
+
+    /**
      * @return ServerPriceRangeAssignmentSingleResponse
      */
     public function createServerPriceRangeAssignment($body, $queryParams = []) {
