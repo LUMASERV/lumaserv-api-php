@@ -23,6 +23,10 @@ class SSHKey {
      */
     public $title;
     /**
+     * @var string
+     */
+    public $type;
+    /**
      * @var object
      */
     public $labels;

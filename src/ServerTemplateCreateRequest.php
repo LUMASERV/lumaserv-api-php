@@ -5,6 +5,10 @@ class ServerTemplateCreateRequest {
     /**
      * @var string
      */
+    public $project_id;
+    /**
+     * @var string
+     */
     public $root_slot;
     /**
      * @var object

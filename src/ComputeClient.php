@@ -500,6 +500,14 @@ class ComputeClient {
     }
 
     /**
+     * @return ServerVolumePriceListResponse
+     */
+    public function getServerVolumePricing($queryParams = []) {
+        $json = $this->request("GET", "/pricing/server-volumes", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumePriceListResponse());
+    }
+
+    /**
      * @return ServerTemplateSingleResponse
      */
     public function createServerTemplate($body, $queryParams = []) {
@@ -548,6 +556,22 @@ class ComputeClient {
     }
 
     /**
+     * @return ServerVolumePriceSingleResponse
+     */
+    public function createServerPriceRangeVolumePrice($body, $id, $queryParams = []) {
+        $json = $this->request("POST", "/server-price-ranges/$id/volume-prices", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumePriceSingleResponse());
+    }
+
+    /**
+     * @return ServerVolumePriceListResponse
+     */
+    public function getServerPriceRangeVolumePrices($id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges/$id/volume-prices", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumePriceListResponse());
+    }
+
+    /**
      * @return ScheduledServerActionSingleResponse
      */
     public function createScheduledServerAction($body, $id, $queryParams = []) {
@@ -561,6 +585,14 @@ class ComputeClient {
     public function getScheduledServerActions($id, $queryParams = []) {
         $json = $this->request("GET", "/servers/$id/scheduled-actions", $queryParams);
         return $this->mapper->map($json, new \LUMASERV\ScheduledServerActionListResponse());
+    }
+
+    /**
+     * @return ServerVariantPriceListResponse
+     */
+    public function getServerPricing($queryParams = []) {
+        $json = $this->request("GET", "/pricing/servers", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerVariantPriceListResponse());
     }
 
     /**
@@ -745,6 +777,30 @@ class ComputeClient {
     public function attachServerVolume($body, $id, $queryParams = []) {
         $json = $this->request("POST", "/server-volumes/$id/attach", $queryParams, $body);
         return $this->mapper->map($json, new \LUMASERV\ServerVolumeSingleResponse());
+    }
+
+    /**
+     * @return ServerVolumePriceSingleResponse
+     */
+    public function getServerPriceRangeVolumePrice($id, $class_id, $queryParams = []) {
+        $json = $this->request("GET", "/server-price-ranges/$id/volume-prices/$class_id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumePriceSingleResponse());
+    }
+
+    /**
+     * @return EmptyResponse
+     */
+    public function deleteServerPriceRangeVolumePrice($id, $class_id, $queryParams = []) {
+        $json = $this->request("DELETE", "/server-price-ranges/$id/volume-prices/$class_id", $queryParams);
+        return $this->mapper->map($json, new \LUMASERV\EmptyResponse());
+    }
+
+    /**
+     * @return ServerVolumePriceSingleResponse
+     */
+    public function updateServerPriceRangeVolumePrice($body, $id, $class_id, $queryParams = []) {
+        $json = $this->request("PUT", "/server-price-ranges/$id/volume-prices/$class_id", $queryParams, $body);
+        return $this->mapper->map($json, new \LUMASERV\ServerVolumePriceSingleResponse());
     }
 
     /**
